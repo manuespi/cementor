@@ -48,5 +48,10 @@ Cada mentoría cuenta con un chat grupal.
 
 
 ### Links
+http://localhost:8080/inicio
+http://localhost:8080/mentorias
+http://localhost:8080/perfil
+http://localhost:8080/chat
+http://localhost:8080/calificar_mentor
+http://localhost:8080/crear_mentoria
 
-links
