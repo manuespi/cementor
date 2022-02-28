@@ -1,5 +1,3 @@
-/* usa este fichero para personalizar tus vistas */
-
 .iwthumb {
     height: 32px;
     width: 32px;
@@ -10,11 +8,38 @@
     max-width: 200px;
     word-break: break-all;
     font-weight: bold;
-    color: gray;
+    color: grey;
 }
 
 .errTable td {
     vertical-align: top;
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
+}
+
+/*Index*/
+h1  {
+    text-align: center;
+    padding-top: 100px;
+}
+
+.sesionButton {
+
+    color: rgb(255, 255, 255); font-size: 20px; line-height: 20px; padding: 16px; border-radius: 5px; font-family: Georgia, serif; font-weight: normal; text-decoration: none; font-style: normal; font-variant: normal; text-transform: none; background-image: linear-gradient(to right, rgb(28, 110, 164) 0%, rgb(35, 136, 203) 50%, rgb(20, 78, 117) 100%); box-shadow: rgb(0, 0, 0) 5px 5px 15px 5px; border: 2px solid rgb(28, 110, 164); display: inline-block;}
+    .sesionButton:hover {
+    background: #1C6EA4; }
+    .sesionButton:active {
+    background: #144E75; }
+
+.tBotones{
+width: 20%;
+margin-top: 25px;
+border-collapse: collapse;
+margin-left: auto;
+margin-right: auto;
+}
+
+.cBotones{
+    width: 50%;;
+    text-align: center;
 }
