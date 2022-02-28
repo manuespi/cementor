@@ -1,4 +1,7 @@
+package es.ucm.fdi.iw.model;
+
 import java.util.Date;
+import java.util.List;
 
 public class Mentoring {
 

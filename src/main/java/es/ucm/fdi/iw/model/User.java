@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j;
 
 import javax.persistence.*;
 
@@ -77,8 +78,9 @@ public class User implements Transferable<User.Transfer> {
     }
 
 	@Override
-    public Transfer toTransfer() {
-		return new Transfer(id,	username, received.size(), sent.size());
+    public Transfer toTransfer() {      
+        return null;
+		//return new Transfer(id,	username, received.size(), sent.size());
 	}
 	
 	@Override

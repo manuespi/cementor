@@ -1,3 +1,5 @@
+package es.ucm.fdi.iw.model;
+
 public class Comment {
 
 private Tag tag;
