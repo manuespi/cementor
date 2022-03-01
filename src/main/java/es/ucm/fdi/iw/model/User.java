@@ -31,7 +31,8 @@ import java.util.List;
 public class User implements Transferable<User.Transfer> {
 
     public enum Role {
-        USER,			// normal users 
+        ALUMNO,
+        MENTOR,			// normal users 
         ADMIN,          // admin users
     }
 
@@ -47,7 +48,10 @@ public class User implements Transferable<User.Transfer> {
 
     private String firstName;
     private String lastName;
-
+    private double score;
+    @OneToMany
+    @JoinColumn (name = "mentor_id")
+    private Review reviews;
     private boolean enabled;
     private String roles; // split by ',' to separate roles
 

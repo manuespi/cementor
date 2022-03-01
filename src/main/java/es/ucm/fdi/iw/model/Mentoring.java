@@ -2,7 +2,6 @@ package es.ucm.fdi.iw.model;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import lombok.Data;
 
 @Entity
