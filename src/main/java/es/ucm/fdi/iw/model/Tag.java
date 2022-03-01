@@ -18,7 +18,7 @@ public class Tag {
     public String getDescription(){
         return description;
     }
-    public List<mentoring> getMentorList(){
+    public List<Mentoring> getMentorList(){
         return mentoringList;
     }
     public String getName(){
