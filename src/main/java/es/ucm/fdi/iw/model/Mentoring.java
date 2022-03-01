@@ -8,20 +8,19 @@ import lombok.Data;
 @Entity
 @Data
 public class Mentoring {
-private int id;
-@OneToOne
-private Profile mentor;
-private String aula;
-private String name;
-private Date date;
+    private int id;
+    @OneToOne
+    private Profile mentor;
+    private String aula;
+    private String name;
+    private Date date;
+    @ManyToMany
+    private Tag tags;
 
-@OneToMany
-private List<Tag> tagList;
-
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-public long getId(){
-    return id;
-}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public long getId(){
+        return id;
+    }
 
 }
