@@ -8,20 +8,20 @@ import lombok.Data;
 @Entity
 @Data
 public class Mentoring {
+
+@Id
+@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
+@SequenceGenerator(name = "gen", sequenceName = "gen")
 private int id;
+
 @OneToOne
 private Profile mentor;
+
 private String aula;
 private String name;
 private Date date;
 
 @OneToMany
 private List<Tag> tagList;
-
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-public long getId(){
-    return id;
-}
 
 }

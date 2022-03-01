@@ -1,6 +1,5 @@
 package es.ucm.fdi.iw.model;
 
-
 import javax.persistence.*;
 
 import lombok.Data;
