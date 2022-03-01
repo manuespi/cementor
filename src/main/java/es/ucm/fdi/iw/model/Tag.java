@@ -8,15 +8,12 @@ import lombok.Data;
 @Data
 public class Tag {
 
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
+    @SequenceGenerator(name = "gen", sequenceName = "gen")
+	private long id;    
     private String name;
     private String description;
     @ManyToMany
     private Mentoring mentoring;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long getId(){
-        return id;
-    }
 }

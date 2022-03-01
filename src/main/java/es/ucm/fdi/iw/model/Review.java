@@ -1,4 +1,5 @@
 package es.ucm.fdi.iw.model;
+import lombok.Data;
 
 @Entity
 @Data
