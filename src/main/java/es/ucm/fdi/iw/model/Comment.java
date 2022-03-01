@@ -6,17 +6,14 @@ import lombok.Data;
 @Data
 public class Comment {
 
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
+    @SequenceGenerator(name = "gen", sequenceName = "gen")
+	private long id;
     @OneToMany
     private Tag tag;
     private String text;
     @ManyToOne
     private User user;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long getId(){
-        return id;
-    }
 
 }

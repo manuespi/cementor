@@ -1,8 +1,14 @@
 package es.ucm.fdi.iw.model;
 import java.util.List;
+import javax.persistence.*;
 
+import lombok.Data;
+@Data
 public class Profile {
-
+@Id
+@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
+@SequenceGenerator(name = "gen", sequenceName = "gen")
+private long id;
 private String name;
 private String role;
 private List<Mentoring> mentoringList;
