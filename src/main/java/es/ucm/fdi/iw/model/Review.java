@@ -11,7 +11,7 @@ public class Review {
 @SequenceGenerator(name = "gen", sequenceName = "gen")
 private long id;
 private int score;
-private Profile profile;
+private Profile profile;//cambiar
 private String text;
 private Mentoring mentoring;
 
