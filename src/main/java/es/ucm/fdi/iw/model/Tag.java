@@ -1,5 +1,5 @@
 package es.ucm.fdi.iw.model;
-
+import java.util.*;
 import javax.persistence.*;
 import lombok.Data;
 
@@ -15,6 +15,8 @@ public class Tag {
     private String name;
     @Column(name="description")
     private String description;
-    @ManyToMany(targetEntity = Mentoring.class, mappedBy = "tags")
-    private Mentoring mentoring;
+    @ManyToOne
+    private Comment comment;
+    @ManyToMany
+    private List<Mentoring> mentoring;
 }

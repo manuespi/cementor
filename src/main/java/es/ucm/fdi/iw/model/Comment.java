@@ -11,12 +11,11 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id;
-    @OneToMany(targetEntity = Tag.class)
-    @JoinColumn(name ="tag_id")
-    private Tag tag;
+    //@OneToMany(targetEntity = Tag.class, mappedBy = "comment")
+    //private Tag tag;
     @Column(name="text")
     private String text;
-    @OneToOne
+    @ManyToOne
     private User user;
 
 }

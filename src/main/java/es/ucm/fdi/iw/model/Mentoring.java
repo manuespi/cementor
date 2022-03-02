@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.util.*;
 import javax.persistence.*;
 import java.util.Date;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class Mentoring {
     private String name;
     @Column(name="date")
     private Date date;
-    @ManyToMany(targetEntity = Tag.class, mappedBy = "mentorias")
-    private Tag tags;
+    @ManyToMany
+    private List<Tag> tags;
 
 }

@@ -12,10 +12,10 @@ public class Review {
 private long id;
 @Column(name="score")
 private int score;
-//@ManyToOne(targetEntity = User.class)
-//private User mentor;
+@ManyToOne(targetEntity = User.class)
+private User creator;
 @Column(name="text")
 private String text;
-@ManyToOne(targetEntity = Mentoring.class)
+@OneToOne
 private Mentoring mentoring;
 }
