@@ -5,18 +5,25 @@ import lombok.Data;
 
 @Entity
 @Data
+@Table(name="tag")
 public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
 	private long id; 
-    @Column(name="name")   
+    
+    @Column(name="NAME")   
     private String name;
-    @Column(name="description")
+    
+    @Column(name="DESCRIPTION")
     private String description;
-    @ManyToOne
-    private Comment comment;
+    
     @ManyToMany
+    @JoinColumn(name="COMMENT_ID")
+    private List<Comment> comment;
+    
+    @ManyToMany
+    @JoinColumn(name="MENTORING_ID")
     private List<Mentoring> mentoring;
 }

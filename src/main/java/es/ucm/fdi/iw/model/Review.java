@@ -4,18 +4,26 @@ import lombok.Data;
 
 @Entity
 @Data
+@Table(name="review")
 public class Review {
 
 @Id
 @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
 @SequenceGenerator(name = "gen", sequenceName = "gen")
 private long id;
-@Column(name="score")
+
+@Column(name="SCORE")
 private int score;
-@ManyToOne(targetEntity = User.class)
+
+@ManyToOne
+@JoinColumn(name="CREATOR_ID")
 private User creator;
-@Column(name="text")
+
+@Column(name="TEXT")
 private String text;
-@OneToOne
+
+@ManyToOne
+@JoinColumn(name="MENTORING_ID")
 private Mentoring mentoring;
+
 }

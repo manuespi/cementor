@@ -7,20 +7,32 @@ import lombok.Data;
 
 @Entity
 @Data
+@Table(name = "mentoring")
 public class Mentoring {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
-	private long id;
-    @OneToOne
+    private long id;
+
+    @ManyToOne
+    @JoinColumn(name = "MENTOR_ID")
     private User mentor;
-    @Column(name="aula")
-    private String aula;
-    @Column(name="name")
+
+    @Column(name = "CLASSROOM")
+    private String classroom;
+
+    @Column(name = "NAME")
     private String name;
-    @Column(name="date")
+
+    @Column(name = "DATE")
     private Date date;
+
     @ManyToMany
+    @JoinColumn(name = "TAG_ID")
     private List<Tag> tags;
+
+    @OneToMany
+    @JoinColumn(name = "REVIEW_ID")
+    private List<Review> reviews;
 
 }
