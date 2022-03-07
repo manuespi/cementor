@@ -30,9 +30,9 @@ import java.util.List;
 public class User implements Transferable<User.Transfer> {
 
     public enum Role {
-        // ALUMNO,
-        // MENTOR,
-        USER, // normal users
+        
+        USER,
+        MENTOR,
         ADMIN
         // admin users
     }
