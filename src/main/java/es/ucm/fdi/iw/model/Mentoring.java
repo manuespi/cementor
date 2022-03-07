@@ -17,14 +17,8 @@ public class Mentoring {
     @ManyToOne
     @JoinColumn(name = "MENTOR_ID")
     private User mentor;
-
-    @Column(name = "CLASSROOM")
-    private String classroom;
-
-    @Column(name = "NAME")
-    private String name;
-
-    @Column(name = "DATE")
+    private String classroom;   
+    private String name;    
     private Date date;
 
     @ManyToMany

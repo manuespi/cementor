@@ -11,15 +11,11 @@ public class Review {
 @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
 @SequenceGenerator(name = "gen", sequenceName = "gen")
 private long id;
-
-@Column(name="SCORE")
 private int score;
 
 @ManyToOne
 @JoinColumn(name="CREATOR_ID")
 private User creator;
-
-@Column(name="TEXT")
 private String text;
 
 @ManyToOne

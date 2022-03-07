@@ -47,14 +47,8 @@ public class User implements Transferable<User.Transfer> {
 
     @Column(nullable = false)
     private String password;
-
-    @Column(name = "FIRST_NAME")
     private String firstName;
-
-    @Column(name = "LAST_NAME")
     private String lastName;
-
-    @Column(name = "SCORE")
     private Double score;
 
     @OneToMany

@@ -11,12 +11,8 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
-	private long id; 
-    
-    @Column(name="NAME")   
+	private long id;    
     private String name;
-    
-    @Column(name="DESCRIPTION")
     private String description;
     
     @ManyToMany

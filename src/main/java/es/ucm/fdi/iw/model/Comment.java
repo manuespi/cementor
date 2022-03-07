@@ -17,8 +17,6 @@ public class Comment {
     @ManyToMany
     @JoinColumn(name="TAG_ID")
     private List<Tag> tag;
-    
-    @Column(name="TEXT")
     private String text;
     
     @ManyToOne
