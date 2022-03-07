@@ -55,7 +55,7 @@ public class User implements Transferable<User.Transfer> {
     private String lastName;
 
     @Column(name = "SCORE")
-    private double score;
+    private Double score;
 
     @OneToMany
     @JoinColumn(name = "COMMENT_ID")
