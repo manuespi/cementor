@@ -1,10 +1,11 @@
 package es.ucm.fdi.iw.model;
-
+import java.util.*;
 import javax.persistence.*;
-
 import lombok.Data;
+
 @Entity
 @Data
+@Table(name="tag")
 public class Tag {
 
     @Id
@@ -13,6 +14,12 @@ public class Tag {
 	private long id;    
     private String name;
     private String description;
+    
     @ManyToMany
-    private Mentoring mentoring;
+    @JoinColumn(name="COMMENT_ID")
+    private List<Comment> comment;
+    
+    @ManyToMany
+    @JoinColumn(name="MENTORING_ID")
+    private List<Mentoring> mentoring;
 }

@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Entity
 @Data
+@Table(name="review")
 public class Review {
 
 @Id
@@ -11,8 +12,14 @@ public class Review {
 @SequenceGenerator(name = "gen", sequenceName = "gen")
 private long id;
 private int score;
-private Profile profile;
+
+@ManyToOne
+@JoinColumn(name="CREATOR_ID")
+private User creator;
 private String text;
+
+@ManyToOne
+@JoinColumn(name="MENTORING_ID")
 private Mentoring mentoring;
 
 }

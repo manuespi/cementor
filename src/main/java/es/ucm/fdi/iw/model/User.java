@@ -16,50 +16,67 @@ import java.util.List;
  * An authorized user of the system.
  */
 @Entity
-@Data
 @NoArgsConstructor
 @NamedQueries({
-        @NamedQuery(name="User.byUsername",
-                query="SELECT u FROM User u "
-                        + "WHERE u.username = :username AND u.enabled = TRUE"),
-        @NamedQuery(name="User.hasUsername",
-                query="SELECT COUNT(u) "
-                        + "FROM User u "
-                        + "WHERE u.username = :username")
+        @NamedQuery(name = "User.byUsername", query = "SELECT u FROM User u "
+                + "WHERE u.username = :username AND u.enabled = TRUE"),
+        @NamedQuery(name = "User.hasUsername", query = "SELECT COUNT(u) "
+                + "FROM User u "
+                + "WHERE u.username = :username")
 })
-@Table(name="IWUser")
+@Table(name = "IWUser")
+@Data
+@Getter
 public class User implements Transferable<User.Transfer> {
 
     public enum Role {
-        USER,			// normal users 
-        ADMIN,          // admin users
+        
+        USER,
+        MENTOR,
+        ADMIN
+        // admin users
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
     @SequenceGenerator(name = "gen", sequenceName = "gen")
-	private long id;
+    private long id;
 
     @Column(nullable = false, unique = true)
     private String username;
+
     @Column(nullable = false)
     private String password;
-
     private String firstName;
     private String lastName;
+    private Double score;
+
+    @OneToMany
+    @JoinColumn(name = "COMMENT_ID")
+    private List<Comment> comments;
+
+    @OneToMany
+    @JoinColumn(name = "MENTORING_ID")
+    private List<Mentoring> mentorings;
+
+    @OneToMany
+    @JoinColumn(name = "REVIEW_ID")
+    private List<Review> review;
 
     private boolean enabled;
     private String roles; // split by ',' to separate roles
 
-	@OneToMany
-	@JoinColumn(name = "sender_id")
-	private List<Message> sent = new ArrayList<>();
-	@OneToMany
-	@JoinColumn(name = "recipient_id")	
-	private List<Message> received = new ArrayList<>();		
+    @OneToMany
+    @JoinColumn(name = "sender_id")
+    private List<Message> sent = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "recipient_id")
+    private List<Message> received = new ArrayList<>();
 
     /**
      * Checks whether this user has a given role.
+     * 
      * @param role to check
      * @return true iff this user has that role.
      */
@@ -68,24 +85,35 @@ public class User implements Transferable<User.Transfer> {
         return Arrays.asList(roles.split(",")).contains(roleName);
     }
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     @Getter
     @AllArgsConstructor
     public static class Transfer {
-		private long id;
+        private long id;
         private String username;
-		private int totalReceived;
-		private int totalSent;
+        private int totalReceived;
+        private int totalSent;
     }
 
-	@Override
-    public Transfer toTransfer() {      
+    @Override
+    public Transfer toTransfer() {
         return null;
-		//return new Transfer(id,	username, received.size(), sent.size());
-	}
-	
-	@Override
-	public String toString() {
-		return toTransfer().toString();
-	}
-}
+        // return new Transfer(id, username, received.size(), sent.size());
+    }
 
+    @Override
+    public String toString() {
+        return toTransfer().toString();
+    }
+}
