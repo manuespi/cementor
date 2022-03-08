@@ -11261,6 +11261,38 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    position: absolute;
+    z-index: 20;
+  }
+
+  .headerTop {
+    margin-top: 25px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .contenedor {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .divBotones {
+    margin-top: -40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-basis: 25%;
+    margin-left: 10px;
+  }
 }
 
 /*# sourceMappingURL=bootstrap.css.map */
