@@ -14,6 +14,6 @@ public class CommentController {
     public void insertMentoring(Comment mentoria){
 
         entityManager.persist(mentoria);
-
+        entityManager.flush();
     }
 }

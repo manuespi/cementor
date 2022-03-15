@@ -22,4 +22,19 @@ public class Tag {
     @ManyToMany
     @JoinColumn(name="MENTORING_ID")
     private List<Mentoring> mentoring;
+
+    public String getName(){
+        return this.name;
+    }
+    public String getDescription(){
+        return this.description;
+    }
+    public void setName(String name){
+        this.name =name;
+
+    }
+    public void setDescription(String description){
+        this.description =description;
+        
+    }
 }
