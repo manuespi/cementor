@@ -85,6 +85,10 @@ public class User implements Transferable<User.Transfer> {
         return Arrays.asList(roles.split(",")).contains(roleName);
     }
 
+    public Long getId(){
+        return id;
+    }
+
     public String getRoles() {
         return roles;
     }
