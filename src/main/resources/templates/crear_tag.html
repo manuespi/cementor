@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Crear Tag</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <form class="form-signin" method="post" th:action="@{/tag/crearTag}" th:object="${tag}">
+                <h2 class="form-signin-heading">crea el tag</h2>
+                <p>
+                    <label for="name" class="visually-hidden">tagname</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="nombre" required="required" th:field="*{name}">
+
+                </p>
+                <p>
+                    <label for="description" class="visually-hidden">description</label>
+                    <input type="text" id="description" name="description" class="form-control" placeholder="descripcion" required="required" th:field="*{description}">
+                </p>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
+            </form>
+        </div>
+    </main>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>

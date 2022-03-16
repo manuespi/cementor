@@ -5,6 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import es.ucm.fdi.iw.model.Tag;
+
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,7 +23,12 @@ public class RootController {
     public String login(Model model) {
         return "login";
     }
-
+    @GetMapping("/crear_tag")
+    public String crearTag(Model model) {
+        //model.addAttribute("tag", new Tag());
+        System.out.println("hola");
+        return "crear_tag";
+    }
 	@GetMapping("/")
     public String index(Model model) {
         return "index";

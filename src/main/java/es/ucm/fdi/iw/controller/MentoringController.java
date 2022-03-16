@@ -17,6 +17,6 @@ public class MentoringController {
     public void insertMentoring(Mentoring mentoria){
 
         entityManager.persist(mentoria);
-
+        entityManager.flush();
     }
 }

@@ -13,6 +13,6 @@ public class ReviewController {
     public void insertMentoring(Review mentoria){
 
         entityManager.persist(mentoria);
-
+        entityManager.flush();
     }
 }
