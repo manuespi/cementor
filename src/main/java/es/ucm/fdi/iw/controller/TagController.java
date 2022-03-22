@@ -1,9 +1,14 @@
 package es.ucm.fdi.iw.controller;
 
+import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,6 +46,22 @@ public class TagController {
         return "borrar_tag";
     }
 
+    @RequestMapping(value = "/buscarTagPorNombre", method = RequestMethod.POST)
+    public String buscarTag(Model model, String nombre){
+        List<Tag> tags = busquedaPorNombre(nombre);
+        model.addAttribute("tags", tags);
+        return "lista_tags";
+    }
+
+
+
+    private List<Tag> busquedaPorNombre(String nombre){
+        TypedQuery<Tag> queryAux =  entityManager.createNamedQuery("TAG.byNAME", Tag.class).setParameter("NAME", nombre);
+
+        List<Tag> tags = queryAux.getResultList();
+        return tags;
+    }
+    
 
 
 
