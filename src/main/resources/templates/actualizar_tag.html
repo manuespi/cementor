@@ -3,7 +3,7 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <title>Crear Tag</title>
+    <title>Actualizar Tag</title>
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -11,8 +11,13 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <form class="form-signin" method="post" th:action="@{/tag/crearTag}">
-                <h2 class="form-signin-heading">crea el tag</h2>
+            <form class="form-signin" method="post" th:action="@{/tag/actualizarTag}">
+                <h2 class="form-signin-heading">Actualizar tag</h2>
+                <p>
+                    <label for="id" class="visually-hidden">id</label>
+                    <input type="text" id="id" name="id" class="form-control" placeholder="id" required="required">
+
+                </p>
                 <p>
                     <label for="name" class="visually-hidden">tagname</label>
                     <input type="text" id="name" name="name" class="form-control" placeholder="nombre" required="required">
