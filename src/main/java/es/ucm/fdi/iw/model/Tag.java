@@ -29,12 +29,19 @@ public class Tag {
     public String getDescription(){
         return this.description;
     }
-    public void setName(String name){
-        this.name =name;
-
+    public boolean setName(String name){
+        if(description.length() < 25){
+        this.name = name;
+        return true;
+        }
+        else return false;
     }
-    public void setDescription(String description){
-        this.description =description;
+    public boolean setDescription(String description){
+        if(description.length() < 100){
+        this.description = description;
+        return true;
+        }
+        else return false;
         
     }
 }

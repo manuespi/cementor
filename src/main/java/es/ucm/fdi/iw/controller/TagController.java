@@ -34,9 +34,11 @@ public class TagController {
     public String updateTag(Model model, @ModelAttribute Tag tag){
         Tag tagAux = entityManager.find(Tag.class, tag.getId());
 
-        tagAux.setName(tag.getName());
-        tagAux.setDescription(tag.getDescription());
-        return "actualizar_tag";
+        if(tagAux.setName(tag.getName())){
+            if(tagAux.setDescription(tag.getDescription()))
+            return "actualizar_tag";
+        }
+        return " "; //poner un alert?
     }
     @Transactional
     @RequestMapping(value = "/borrarTag", method = RequestMethod.POST)
