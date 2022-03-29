@@ -27,7 +27,7 @@ public class TagController {
     @RequestMapping(value = "/crearTag", method = RequestMethod.POST)
     public String createTag(Model model, @ModelAttribute Tag tag){
         entityManager.persist(tag);
-        return "crear_tag";
+        return "crear_comment";
     }
     @Transactional
     @RequestMapping(value = "/actualizarTag", method = RequestMethod.POST)
