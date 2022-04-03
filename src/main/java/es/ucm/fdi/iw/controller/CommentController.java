@@ -24,21 +24,6 @@ public class CommentController {
     @Autowired
 	private EntityManager entityManager;
 
-    @GetMapping("/crearComment")
-    public String commentForm(Model model){
-        model.addAttribute("tagList", entityManager
-            .createQuery("SELECT t FROM TAG t",Tag.class)
-            .getResultList());
-        return "crear_comment";
-    }
-    
-
-    @Transactional
-    @RequestMapping(value = "/crearComment", method = RequestMethod.POST)
-    public String createComment(Model model, @ModelAttribute Comment comment){
-        entityManager.persist(comment);
-       return commentForm(model);
-    }
     @RequestMapping(value = "/VerTag", method = RequestMethod.POST)
     public String borrarTag(Model model, @ModelAttribute Comment comment){
         model.addAttribute("tagList", entityManager

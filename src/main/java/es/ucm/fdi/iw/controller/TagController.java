@@ -21,35 +21,9 @@ import es.ucm.fdi.iw.model.Tag;
 @Controller
 @RequestMapping("/tag")
 public class TagController {
-    @Autowired
-	private EntityManager entityManager;
-    @Transactional
-    @RequestMapping(value = "/crearTag", method = RequestMethod.POST)
-    public String createTag(Model model, @ModelAttribute Tag tag){
-        entityManager.persist(tag);
-        return "crear_comment";
-    }
-    @Transactional
-    @RequestMapping(value = "/actualizarTag", method = RequestMethod.POST)
-    public String updateTag(Model model, @ModelAttribute Tag tag){
-        Tag tagAux = entityManager.find(Tag.class, tag.getId());
-
-        if(tagAux.setName(tag.getName())){
-            if(tagAux.setDescription(tag.getDescription()))
-            return "actualizar_tag";
-        }
-        return " "; //poner un alert?
-    }
-    @Transactional
-    @RequestMapping(value = "/borrarTag", method = RequestMethod.POST)
-    public String borrarTag(Model model, @ModelAttribute Tag tag){
-        Tag tagAux = entityManager.getReference(Tag.class, tag.getId());
-        entityManager.remove(tagAux);
-        return "borrar_tag";
-    }
 
     @RequestMapping(value = "/buscarTagPorNombre", method = RequestMethod.POST)
-    public String buscarTag(Model model, String nombre){
+    public String buscarTag(Model model, String nombre){ //esta es para user y para admin
         List<Tag> tags = busquedaPorNombre(nombre);
         model.addAttribute("tags", tags);
         return "lista_tags";
@@ -57,7 +31,7 @@ public class TagController {
 
 
 
-    private List<Tag> busquedaPorNombre(String nombre){
+    private List<Tag> busquedaPorNombre(String nombre){ //esta es para user y para admin
         TypedQuery<Tag> queryAux =  entityManager.createNamedQuery("TAG.byNAME", Tag.class).setParameter("NAME", nombre);
 
         List<Tag> tags = queryAux.getResultList();
