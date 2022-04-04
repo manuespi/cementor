@@ -29,12 +29,9 @@ public class Tag {
     public String getDescription(){
         return this.description;
     }
-    public boolean setName(String name){
-        if(description.length() < 25){
-        this.name = name;
+    public boolean setName(String a){
+        this.name=a;
         return true;
-        }
-        else return false;
     }
     public boolean setDescription(String description){
         if(description.length() < 100){

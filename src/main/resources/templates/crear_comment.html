@@ -15,10 +15,13 @@
                 <h2 class="form-signin-heading">crea el comentario</h2>
                 
                 <label for="cars">Choose a Tag:</label>
-                <select name="cars" id="cars" multiple>
+                <!--<select name="cars" id="cars" multiple>
                     <option th:each="t: ${tagList}" 
-                        th:value="${t.id}" th:text="${t.name}">Volvo</option>
-                </select>
+                        th:value="${t.id}" th:text="${t.name}"></option>
+                </select>-->
+                <tr th:each="t : ${tagList}">
+                    <td><span th:text="${t.id}"> Title </span></td>
+                </tr>
                 <p>
                     <label for="classroom" class="visually-hidden">classroom</label>
                     <input type="text" id="classroom" name="classroom" class="form-control" placeholder="Classroom" required="required">

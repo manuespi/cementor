@@ -8,3 +8,4 @@ VALUES (2, TRUE, 'USER', 'b',
 INSERT INTO IWUser (id, enabled, roles, username, password)
 VALUES (3, TRUE, 'MENTOR', 'c',
     '{bcrypt}$2a$10$2BpNTbrsarbHjNsUWgzfNubJqBRf.0Vz9924nRSHBqlbPKerkgX.W');
+

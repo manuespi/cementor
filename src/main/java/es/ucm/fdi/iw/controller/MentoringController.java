@@ -6,9 +6,15 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import es.ucm.fdi.iw.model.Mentoring;
 
+@Controller
+@RequestMapping("mentoring")
 public class MentoringController {
     
     @Autowired
@@ -19,4 +25,10 @@ public class MentoringController {
         entityManager.persist(mentoria);
         entityManager.flush();
     }
+
+    @GetMapping("/pag_crear_mentoria")
+    public String index(Model model) {
+        return "crear_mentoria";
+    }
 }
+
