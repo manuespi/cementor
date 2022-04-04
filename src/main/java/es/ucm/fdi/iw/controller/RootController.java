@@ -29,6 +29,11 @@ public class RootController {
         System.out.println("hola");
         return "crear_tag";
     }
+    public String crearComment(Model model) {
+        //model.addAttribute("tag", new Tag());
+        System.out.println("hola");
+        return "crear_comment";
+    }
 	@GetMapping("/")
     public String index(Model model) {
         return "index";
