@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import es.ucm.fdi.iw.model.Comment;
 import es.ucm.fdi.iw.model.Tag;
 
 /**
@@ -35,14 +36,14 @@ public class AdminController {
     public String index(Model model) {
         return "admin";
     }
-
+    //Tag
     @Autowired
 	private EntityManager entityManager;
     @Transactional
     @RequestMapping(value = "/crearTag", method = RequestMethod.POST)
     public String createTag(Model model, @ModelAttribute Tag tag){
         entityManager.persist(tag);
-        return "crear_comment";
+        return "crear_tag";
     }
 
     @Transactional
@@ -54,7 +55,7 @@ public class AdminController {
             if(tagAux.setDescription(tag.getDescription()))
             return "actualizar_tag";
         }
-        return " "; //poner un alert?
+        return "actualizar_tag"; //poner un alert?
     }
 
     @Transactional
@@ -63,5 +64,15 @@ public class AdminController {
         Tag tagAux = entityManager.getReference(Tag.class, tag.getId());
         entityManager.remove(tagAux);
         return "borrar_tag";
+    }
+
+
+    //Comment
+    @RequestMapping(value = "/VerTag", method = RequestMethod.POST)
+    public String borrarTag(Model model, @ModelAttribute Comment comment){
+        model.addAttribute("tagList", entityManager
+            .createQuery("SELECT t FROM TAG t",Tag.class)
+            .getResultList());
+        return "borrar_comment";
     }
 }

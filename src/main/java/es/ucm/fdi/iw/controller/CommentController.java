@@ -24,13 +24,7 @@ public class CommentController {
     @Autowired
 	private EntityManager entityManager;
 
-    @RequestMapping(value = "/VerTag", method = RequestMethod.POST)
-    public String borrarTag(Model model, @ModelAttribute Comment comment){
-        model.addAttribute("tagList", entityManager
-            .createQuery("SELECT t FROM TAG t",Tag.class)
-            .getResultList());
-        return "borrar_comment";
-    }
+   
     
 
    /* @Transactional
