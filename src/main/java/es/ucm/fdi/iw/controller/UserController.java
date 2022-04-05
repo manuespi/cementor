@@ -1,7 +1,9 @@
 package es.ucm.fdi.iw.controller;
 
 import es.ucm.fdi.iw.LocalData;
+import es.ucm.fdi.iw.model.Comment;
 import es.ucm.fdi.iw.model.Message;
+import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -309,4 +312,20 @@ public class UserController {
 		messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 		return "{\"result\": \"message sent.\"}";
 	}	
+
+	@GetMapping("/crearComment")
+    public String commentForm(Model model){
+        model.addAttribute("tagList", entityManager
+            .createQuery("SELECT t FROM TAG t",Tag.class)
+            .getResultList());
+        return "crear_comment";
+    }
+    
+
+    @Transactional
+    @RequestMapping(value = "/crearComment", method = RequestMethod.POST)
+    public String createComment(Model model, @ModelAttribute Comment comment){
+        entityManager.persist(comment);
+        return commentForm(model);
+    }
 }

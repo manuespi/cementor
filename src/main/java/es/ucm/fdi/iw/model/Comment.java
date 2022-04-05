@@ -23,4 +23,6 @@ public class Comment {
     @JoinColumn(name="USER_ID")
     private User user;
 
+    
+
 }

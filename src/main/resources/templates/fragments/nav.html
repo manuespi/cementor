@@ -26,6 +26,18 @@
                                 <a class="nav-link" th:if="${session.u.hasRole('ADMIN')}" th:href="@{/admin/}">Administrar</a>
                             </li>
 
+                            <li class="nav-item align-self-center">
+                                <form th:action="@{/crear_comment}" method="post">
+                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Crear un comment</button>
+                                </form>
+                            </li>
+
+                            <li class="nav-item align-self-center">
+                                <form th:action="@{/crear_tag}" method="post">
+                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Crear un tag</button>
+                                </form>
+                            </li>
+
                             <li class="nav-item mx-2">
                                 <a class="nav-link" th:href="@{/perfil/{id}(id=${session.u.id})}">
                                     <img class="iwthumb rounded" th:src="@{/user/{id}/pic(id=${session.u.id})}">
