@@ -11,22 +11,19 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <form class="form-signin" method="post" th:action="@{/tag/crearMentoria}">
-                <h2 class="form-signin-heading">crea el tag</h2>
-                <p>
-                    <label for="mentor" class="visually-hidden">mentor</label>
-                    <input type="text" id="mentor" name="mentor" class="form-control" placeholder="Mentor" required="required">
-                </p>
+            <form class="form-signin" method="post" th:action="@{/crearMentoria}">
+                <h2 class="form-signin-heading">Crea mentoria</h2>
+               
                 <p>
                     <label for="classroom" class="visually-hidden">classroom</label>
                     <input type="text" id="classroom" name="classroom" class="form-control" placeholder="Classroom" required="required">
                 </p>
                 <p>
                     <label for="mentoring" class="visually-hidden">name</label>
-                    <input type="text" id="mentoring" name="mentoring" class="form-control" placeholder="Mentoring name" required="required">
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Mentoring name" required="required">
                 </p>
                 <p>
                     <label for="date" class="visually-hidden">date</label>
-                    <input type="date" id="date" name="mentoring" class="form-control" placeholder="Date" required="required">
+                    <input type="date" id="date" name="date" class="form-control" placeholder="Date" required="required">
                 </p>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>

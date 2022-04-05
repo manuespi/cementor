@@ -52,15 +52,15 @@ public class User implements Transferable<User.Transfer> {
     private Double score;
 
     @OneToMany
-    @JoinColumn(name = "COMMENT_ID")
+    //@JoinColumn(name = "COMMENT_ID")
     private List<Comment> comments;
 
     @OneToMany
-    @JoinColumn(name = "MENTORING_ID")
+    //@JoinColumn(name = "MENTORING_ID")
     private List<Mentoring> mentorings;
 
     @OneToMany
-    @JoinColumn(name = "REVIEW_ID")
+    //@JoinColumn(name = "REVIEW_ID")
     private List<Review> review;
 
     private boolean enabled;

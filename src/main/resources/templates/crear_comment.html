@@ -11,27 +11,18 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <form class="form-signin" method="post" th:action="@{/user/crearComment}">
+            <form class="form-signin" method="post" th:action="@{/crearComment}">
                 <h2 class="form-signin-heading">crea el comentario</h2>
                 
-                <label for="cars">Choose a Tag:</label>
-                <!--<select name="cars" id="cars" multiple>
+                <label for="tags">Choose a Tag:</label>
+                <select name="tags" id="tags" multiple>
                     <option th:each="t: ${tagList}" 
                         th:value="${t.id}" th:text="${t.name}"></option>
-                </select>-->
-                <tr th:each="t : ${tagList}">
-                    <td><span th:text="${t.id}"> Title </span></td>
-                </tr>
+                </select>
+               
                 <p>
-                    <label for="classroom" class="visually-hidden">classroom</label>
-                    <input type="text" id="classroom" name="classroom" class="form-control" placeholder="Classroom" required="required">
+                    <label for="text" class="visually-hidden">text</label>
+                    <input type="text" id="text" name="text" class="form-control" placeholder="escribir comentario" required="required">
                 </p>
-                <p>
-                    <label for="mentoring" class="visually-hidden">name</label>
-                    <input type="text" id="mentoring" name="mentoring" class="form-control" placeholder="Mentoring name" required="required">
-                </p>
-                <p>
-                    <label for="date" class="visually-hidden">date</label>
-                    <input type="date" id="date" name="mentoring" class="form-control" placeholder="Date" required="required">
-                </p>
+               
                 <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>

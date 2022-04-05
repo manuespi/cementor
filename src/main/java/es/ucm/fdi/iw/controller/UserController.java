@@ -322,10 +322,5 @@ public class UserController {
     }
     
 
-    @Transactional
-    @RequestMapping(value = "/crearComment", method = RequestMethod.POST)
-    public String createComment(Model model, @ModelAttribute Comment comment){
-        entityManager.persist(comment);
-        return commentForm(model);
-    }
+ 
 }

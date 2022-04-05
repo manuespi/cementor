@@ -1,7 +1,11 @@
 package es.ucm.fdi.iw.model;
 
+import java.time.LocalDate;
 import java.util.*;
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import lombok.Data;
 
@@ -18,7 +22,8 @@ public class Mentoring {
     @JoinColumn(name = "MENTOR_ID")
     private User mentor;
     private String classroom;   
-    private String name;    
+    private String name;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")    
     private Date date;
 
     @ManyToMany
