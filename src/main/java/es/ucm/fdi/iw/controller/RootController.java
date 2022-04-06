@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import es.ucm.fdi.iw.model.Comment;
 import es.ucm.fdi.iw.model.Mentoring;
+import es.ucm.fdi.iw.model.Review;
 import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.User;
 
@@ -34,14 +35,28 @@ public class RootController {
     public String login(Model model) {
         return "login";
     }
-    @GetMapping("/crear_tag")
-    public String crearTag(Model model) {
+
+
+    @GetMapping("/tags/crear_tag")
+    public String vistacrearTag(Model model) {
         //model.addAttribute("tag", new Tag());
-        return "crear_tag";
+        return "tags/crear_tag";
+    }
+    @Transactional
+    @PostMapping("/tags/crear_tag")
+    public String crearTag(Model model, HttpSession session, @ModelAttribute Tag tag) {
+        //model.addAttribute("tag", new Tag());
+            entityManager.persist(tag);
+            return "tags/crear_tag";
     }
     
+    @GetMapping("/tags/lista_tags")
+    public String vistaListaTags(Model model) {
+        //model.addAttribute("tag", new Tag());
+        return "/tags/lista_tags";
+    }
     @Transactional
-    @GetMapping("/crear_comment")
+    @GetMapping("/comments/crear_comment")
     public String crearComment(Model model) {
         //model.addAttribute("tag", new Tag());
         Tag tag = new Tag();
@@ -74,7 +89,7 @@ public class RootController {
             .createQuery("SELECT t FROM Tag t", Tag.class)
             .getResultList());
 
-        return "crear_comment";
+        return "comments/crear_comment";
     }
     
     @Transactional
@@ -84,29 +99,46 @@ public class RootController {
         User u = entityManager.find(User.class, id);
         comment.setUser(u);
         entityManager.persist(comment);
-        return "crear_comment";
+        return "comments/crear_comment";
     }
 
-    @GetMapping("/crear_mentoria")
+    @GetMapping("/mentorias/crear_mentoria")
     public String vistaCrearMentoria(Model model){
-        return "crear_mentoria";
+        return "mentorias/crear_mentoria";
     }
     @Transactional
-    @PostMapping("/crearMentoria")
+    @PostMapping("/mentorias/crearMentoria")
     public String crearMentoring(Model model, HttpSession session, @ModelAttribute Mentoring mentoria) {
         //model.addAttribute("tag", new Tag());
             Long id = ((User) session.getAttribute("u")).getId();
             User u = entityManager.find(User.class, id);
-        
             mentoria.setMentor(u);
             entityManager.persist(mentoria);
-            
-
-        return "crear_mentoria";
+            return "mentorias/crear_mentoria";
     }
 	@GetMapping("/")
     public String index(Model model) {
         return "index";
+    }
+    @Transactional
+    @GetMapping("/reviews/crear_review")
+    public String crearReview(Model model) {
+            entityManager.flush();
+            model.addAttribute("mentoringList", entityManager
+            .createQuery("SELECT m FROM Mentoring m", Mentoring.class)
+            .getResultList());
+
+        return "reviews/crear_review";
+    }
+    
+    @Transactional
+    @PostMapping("/reviews/crearReview")
+    public String createReview(Model model,HttpSession session, @ModelAttribute Review review){
+        Long id = ((User) session.getAttribute("u")).getId();
+        User u = entityManager.find(User.class, id);
+        review.setCreator(u);
+        entityManager.persist(review);
+        return "reviews/crear_review";
     }
 /*
     @GetMapping("/{cosa}")

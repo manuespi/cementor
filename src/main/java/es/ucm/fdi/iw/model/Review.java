@@ -11,7 +11,7 @@ public class Review {
 @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen")
 @SequenceGenerator(name = "gen", sequenceName = "gen")
 private long id;
-private int score;
+private Integer score;
 
 @ManyToOne
 @JoinColumn(name="CREATOR_ID")
