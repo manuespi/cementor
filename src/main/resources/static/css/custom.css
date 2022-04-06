@@ -32,14 +32,74 @@ h1  {
     background: #144E75; }
 
 .tBotones{
-width: 20%;
-margin-top: 25px;
-border-collapse: collapse;
-margin-left: auto;
-margin-right: auto;
+    width: 20%;
+    margin-top: 25px;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .cBotones{
     width: 50%;;
     text-align: center;
+}
+/*Ver comments*/
+.boxes_container{
+    width: 60%;
+    margin-left: 10%;
+    border-width: 1px 1px 1px 1px;
+    border-style: solid;
+    border-color: #000000;  
+}
+.boxes_list{
+    list-style: none;
+    text-align: center;
+}
+
+.box{/*Box*/
+    border-width: 0px 0px 1px 0px;
+    border-style: dashed;
+    border-color: #1C6EA4;  
+}
+
+.box:hover{
+    background-color: #9eceee;
+}
+
+.tema{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 5%;
+}
+.info{
+    overflow: hidden;
+}
+.autor_fecha{
+    font-size: 14px;
+    text-align: left;
+    margin-left: 6%;
+    float: left;
+}
+.autor{
+    font-size: 18px;
+    margin-right: 10px;
+}
+.autor:hover{
+    cursor: pointer;
+}
+.tags {
+    
+    margin-right: 5px;
+    float: right;
+}
+.tag_element{   
+    border-width: 5px;
+    border-style:groove;
+    border-color: rgba(28,110,164,0.5);
+    border-radius: 10px;
+    width: fit-content;
+    float: right;
+    margin-left: 5px;
 }

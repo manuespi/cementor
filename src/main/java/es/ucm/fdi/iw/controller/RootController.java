@@ -111,6 +111,15 @@ public class RootController {
         return "comments/crear_comment";
     }
 
+    //Ver comments
+    @Transactional
+    @GetMapping("/comments/ver_comments")
+    public String verComment(Model model)
+    {
+        return "comments/ver_comments";
+    }
+    //@PostMapping("comments/ver_comments")
+
     @GetMapping("/mentorias/crear_mentoria")
     public String vistaCrearMentoria(Model model){
         return "mentorias/crear_mentoria";
