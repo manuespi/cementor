@@ -1,5 +1,8 @@
 package es.ucm.fdi.iw.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -7,6 +10,7 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.metrics.StartupStep.Tags;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -94,10 +98,15 @@ public class RootController {
     
     @Transactional
     @PostMapping("/crearComment")
-    public String createComment(Model model,HttpSession session, @ModelAttribute Comment comment){
+    public String createComment(Model model,HttpSession session, @ModelAttribute Comment comment, @RequestParam(name = "tags", required = false) List<Long> ids){
         Long id = ((User) session.getAttribute("u")).getId();
         User u = entityManager.find(User.class, id);
         comment.setUser(u);
+        List<Tag> listTags= new ArrayList<Tag>();
+        for(int i=0; i<ids.size(); i++){
+            listTags.add(entityManager.find(Tag.class, ids.get(i)));
+        }
+        comment.setTag(listTags);
         entityManager.persist(comment);
         return "comments/crear_comment";
     }
