@@ -14,14 +14,14 @@
             <form class="form-signin" method="get" th:action="@{/reviews/lista_reviews}">
                 <h2 class="form-signin-heading">Lista de reviews</h2>
 
-                <ul name="tags" id="tags" multiple>
-                    <h1>Puntuación</h1>
-                    <li th:each="r: ${reviewList}" 
-                        th:value="${r.mentoring_id}" th:text="${r.score}"></li>
-                    <h1>Contenido</h1>
-                    <li th:each="t: ${reviewList}" 
-                        th:value="${r.mentoring_id}" th:text="${r.text}"></li>
-                </ul>
+                <table name="reviews" id="reviews" multiple>
+                    <tr th:each="r: ${reviewList}">
+                    <td 
+                        th:value="${r.id}" th:text="${r.score}"></td>
+                    <td  
+                        th:value="${r.id}" th:text="${r.text}"></td>
+                    </tr>
+                </table>
                 
             </form>
         </div>

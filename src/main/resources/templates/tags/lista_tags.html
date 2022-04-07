@@ -14,14 +14,14 @@
             <form class="form-signin" method="get" th:action="@{/tags/lista_tags}">
                 <h2 class="form-signin-heading">Lista de tags</h2>
 
-                <ul name="tags" id="tags" multiple>
-                    <h1>Names</h1>
-                    <li th:each="t: ${tagList}" 
-                        th:value="${t.id}" th:text="${t.name}"></li>
-                    <h1>Descriptions</h1>
-                    <li th:each="t: ${tagList}" 
-                        th:value="${t.id}" th:text="${t.description}"></li>
-                </ul>
+                <table name="tags" id="tags" multiple>
+                    <tr th:each="t: ${tagList}">
+                    <td 
+                        th:value="${t.id}" th:text="${t.name}"></td>
+                    <td 
+                        th:value="${t.id}" th:text="${t.description}"></td>
+                    </tr>
+                </table>
                 
             </form>
         </div>
