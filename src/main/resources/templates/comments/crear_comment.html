@@ -14,7 +14,7 @@
             <form class="form-signin" method="post" th:action="@{/crearComment}">
                 <h2 class="form-signin-heading">crea el comentario</h2>
                 
-                <label for="tags">Choose a Tag:</label>
+                <label for="tags">Elige uno o más Tags:</label>
                 <select name="tags" id="tags" multiple>
                     <option th:each="t: ${tagList}" 
                         th:value="${t.id}" th:text="${t.name}"></option>

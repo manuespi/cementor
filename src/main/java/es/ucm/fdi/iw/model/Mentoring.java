@@ -1,9 +1,9 @@
 package es.ucm.fdi.iw.model;
 
-import java.time.LocalDate;
+
 import java.util.*;
 import javax.persistence.*;
-import java.time.LocalTime;
+
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,7 +32,7 @@ public class Mentoring {
 
     @ManyToMany
     @JoinColumn(name = "TAG_ID")
-    private List<Tag> tags;
+    private List<Tag> tag;
     /* añadir a list review de la mentoria */
     @OneToMany
     @JoinColumn(name = "REVIEW_ID")
@@ -141,14 +141,14 @@ public class Mentoring {
      * @return List<Tag> return the tags
      */
     public List<Tag> getTags() {
-        return tags;
+        return tag;
     }
 
     /**
      * @param tags the tags to set
      */
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
+    public void setTags(List<Tag> tag) {
+        this.tag = tag;
     }
 
     /**
