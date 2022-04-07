@@ -166,10 +166,12 @@ public class RootController {
     
     @Transactional
     @PostMapping("/reviews/crearReview")
-    public String createReview(Model model,HttpSession session, @ModelAttribute Review review){
+    public String createReview(Model model,HttpSession session, @ModelAttribute Review review,  @RequestParam(name = "mentoringId", required = false) Long ids){
         Long id = ((User) session.getAttribute("u")).getId();
         User u = entityManager.find(User.class, id);
         review.setCreator(u);
+        Mentoring m = entityManager.find(Mentoring.class, ids);
+        review.setMentoring(m);
         entityManager.persist(review);
         return "reviews/crear_review";
     }
