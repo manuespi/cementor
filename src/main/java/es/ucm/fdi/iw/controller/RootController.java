@@ -56,7 +56,9 @@ public class RootController {
     
     @GetMapping("/tags/lista_tags")
     public String vistaListaTags(Model model) {
-        //model.addAttribute("tag", new Tag());
+        model.addAttribute("tagList", entityManager
+            .createQuery("SELECT t FROM Tag t", Tag.class)
+            .getResultList());
         return "/tags/lista_tags";
     }
     @Transactional
