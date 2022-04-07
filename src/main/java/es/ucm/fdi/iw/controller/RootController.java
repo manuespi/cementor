@@ -118,6 +118,10 @@ public class RootController {
     @GetMapping("/comments/ver_comments")
     public String verComment(Model model)
     {
+        model.addAttribute("commentList", entityManager
+            .createQuery("SELECT t FROM Comment t", Comment.class)
+            .getResultList());
+            
         return "comments/ver_comments";
     }
     //@PostMapping("comments/ver_comments")
