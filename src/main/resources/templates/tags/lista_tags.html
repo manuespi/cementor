@@ -11,10 +11,18 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <form class="form-signin" method="post" th:action="@{/tags/lista_tags}">
-                <h2 class="form-signin-heading">crea el tag</h2>
+            <form class="form-signin" method="get" th:action="@{/tags/lista_tags}">
+                <h2 class="form-signin-heading">Lista de tags</h2>
+
+                <ul name="tags" id="tags" multiple>
+                    <h1>Names</h1>
+                    <li th:each="t: ${tagList}" 
+                        th:value="${t.id}" th:text="${t.name}"></li>
+                    <h1>Descriptions</h1>
+                    <li th:each="t: ${tagList}" 
+                        th:value="${t.id}" th:text="${t.description}"></li>
+                </ul>
                 
-                <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
             </form>
         </div>
     </main>

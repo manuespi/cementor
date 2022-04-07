@@ -313,7 +313,7 @@ public class UserController {
 		return "{\"result\": \"message sent.\"}";
 	}	
 
-	@GetMapping("/crearComment")
+	//@GetMapping("/crearComment")
     public String commentForm(Model model){
         model.addAttribute("tagList", entityManager
             .createQuery("SELECT t FROM TAG t",Tag.class)

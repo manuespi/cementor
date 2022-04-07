@@ -3,7 +3,7 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <title>Crear Mentoria</title>
+    <title>Crear Comentario</title>
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -19,6 +19,7 @@
                     <option th:each="t: ${tagList}" 
                         th:value="${t.id}" th:text="${t.name}"></option>
                 </select>
+                <label for="tags">Tecla Ctrl para seleccionar más de uno.</label>
                
                 <p>
                     <label for="text" class="visually-hidden">text</label>
