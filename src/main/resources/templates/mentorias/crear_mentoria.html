@@ -35,7 +35,7 @@
                     <input type="text" id="fin" name="fin" class="form-control" placeholder="Hora de fin (ej.15:09)" required="required">
                 </p>
                 <label for="tags">Elige uno o más Tags:</label>
-                <select name="tags" id="tags" multiple>
+                <select name="tagIds" id="tagIds" multiple>
                     <option th:each="t: ${tagList}" 
                         th:value="${t.id}" th:text="${t.name}"></option>
                 </select>

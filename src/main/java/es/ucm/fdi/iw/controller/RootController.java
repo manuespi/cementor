@@ -136,7 +136,7 @@ public class RootController {
     }
     @Transactional
     @PostMapping("/mentorias/crear_mentoria")
-    public String crearMentoring(Model model, HttpSession session, @ModelAttribute Mentoring mentoria, @RequestParam(name = "tags", required = false) List<Long> ids) {
+    public String crearMentoring(Model model, HttpSession session, @ModelAttribute Mentoring mentoria, @RequestParam(name = "tagIds", required = false) List<Long> ids) {
         //model.addAttribute("tag", new Tag());
             Long id = ((User) session.getAttribute("u")).getId();
             User u = entityManager.find(User.class, id);
@@ -147,7 +147,7 @@ public class RootController {
             }
             mentoria.setTags(listTags);
             entityManager.persist(mentoria);
-            return "/mentorias/crear_mentoria";
+            return "mentorias/crear_mentoria";
     }
 	@GetMapping("/")
     public String index(Model model) {
