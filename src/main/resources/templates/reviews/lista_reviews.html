@@ -3,7 +3,7 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <title>Lista de Tags</title>
+    <title>Lista de Reviews</title>
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -11,15 +11,15 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <form class="form-signin" method="get" th:action="@{/tags/lista_tags}">
-                <h2 class="form-signin-heading">Lista de tags</h2>
+            <form class="form-signin" method="get" th:action="@{/reviews/lista_reviews}">
+                <h2 class="form-signin-heading">Lista de reviews</h2>
 
-                <table name="tags" id="tags" multiple>
-                    <tr th:each="t: ${tagList}">
+                <table name="reviews" id="reviews" multiple>
+                    <tr th:each="r: ${reviewList}">
                     <td 
-                        th:value="${t.id}" th:text="${t.name}"></td>
-                    <td 
-                        th:value="${t.id}" th:text="${t.description}"></td>
+                        th:value="${r.id}" th:text="${r.score}"></td>
+                    <td  
+                        th:value="${r.id}" th:text="${r.text}"></td>
                     </tr>
                 </table>
                 

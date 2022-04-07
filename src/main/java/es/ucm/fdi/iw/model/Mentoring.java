@@ -35,7 +35,6 @@ public class Mentoring {
     private List<Tag> tag;
     /* añadir a list review de la mentoria */
     @OneToMany
-    @JoinColumn(name = "REVIEW_ID")
     private List<Review> reviews;
 
 

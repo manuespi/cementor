@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Lista de Reviews</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <form class="form-signin" method="get" th:action="@{/mentorias/lista_mentorias}">
+                <h2 class="form-signin-heading">Lista de Mentorias</h2>
+
+                <table name="mentorias" id="mentorias" multiple>
+                    
+                    <tr th:each="m: ${mentoringList}">
+                     <!--<td th:each="m: ${mentoringList}" 
+                        th:value="${m.id}" th:text="${m.mentor.name}"></td>-->
+                        <td  
+                        th:value="${m.id}" th:text="${m.classroom}"></td>
+                        <td 
+                        th:value="${m.id}" th:text="${m.date}"></td>
+                        <td 
+                        th:value="${m.id}" th:text="${m.ini}"></td>
+                        <td
+                        th:value="${m.id}" th:text="${m.fin}"></td>
+                    </tr>
+                </table>
+                
+            </form>
+        </div>
+    </main>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>

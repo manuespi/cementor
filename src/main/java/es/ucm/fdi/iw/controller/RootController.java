@@ -53,7 +53,7 @@ public class RootController {
             entityManager.persist(tag);
             return "tags/crear_tag";
     }
-    
+
     @GetMapping("/tags/lista_tags")
     public String vistaListaTags(Model model) {
         model.addAttribute("tagList", entityManager
@@ -97,7 +97,7 @@ public class RootController {
 
         return "comments/crear_comment";
     }
-    
+
     @Transactional
     @PostMapping("/crearComment")
     public String createComment(Model model,HttpSession session, @ModelAttribute Comment comment, @RequestParam(name = "tags", required = false) List<Long> ids){
@@ -121,7 +121,7 @@ public class RootController {
         model.addAttribute("commentList", entityManager
             .createQuery("SELECT t FROM Comment t", Comment.class)
             .getResultList());
-            
+
         return "comments/ver_comments";
     }
 
@@ -163,6 +163,18 @@ public class RootController {
     public String index(Model model) {
         return "index";
     }
+    
+    @GetMapping("/mentorias/lista_mentorias")
+    public String verListaMentorings(Model model) {
+            model.addAttribute("mentoringList", entityManager
+            .createQuery("SELECT m FROM Mentoring m", Mentoring.class)
+            .getResultList());
+
+        return "mentorias/lista_mentorias";
+    }
+
+
+
     @Transactional
     @GetMapping("/reviews/crear_review")
     public String crearReview(Model model) {
@@ -173,20 +185,53 @@ public class RootController {
 
         return "reviews/crear_review";
     }
-    
     @Transactional
     @PostMapping("/reviews/crearReview")
-    public String createReview(Model model,HttpSession session, @ModelAttribute Review review){
+    public String createReview(Model model,HttpSession session, @ModelAttribute Review review,  @RequestParam(name = "mentoringId", required = false) Long ids){
         Long id = ((User) session.getAttribute("u")).getId();
         User u = entityManager.find(User.class, id);
         review.setCreator(u);
+        Mentoring m = entityManager.find(Mentoring.class, ids);
+        review.setMentoring(m);
         entityManager.persist(review);
-        return "reviews/crear_review";
+        return "/reviews/crear_review";
     }
+
+    @GetMapping("/reviews/lista_reviews")
+    public String verListaReviews(Model model) {
+            model.addAttribute("reviewList", entityManager
+            .createQuery("SELECT r FROM Review r", Review.class)
+            .getResultList());
+
+        return "reviews/lista_reviews";
+    }
+  
+
+    /*@GetMapping("/reviews/crear_review")
+    public String mentoringListForReview(Model model) {
+            model.addAttribute("mentoringList", entityManager
+            .createQuery("SELECT m FROM Mentoring m", Mentoring.class)
+            .getResultList());
+
+        return "/reviews/crear_review";
+    }*/
+
+   /* @Transactional
+    @GetMapping("/reviews/crear_review")
+    public String crearReview(Model model) {
+            entityManager.flush();
+            model.addAttribute("mentoringList", entityManager
+            .createQuery("SELECT m FROM Mentoring m", Mentoring.class)
+            .getResultList());
+
+        return "reviews/crear_review";
+    }*/
+
+ 
 /*
     @GetMapping("/{cosa}")
     public String unaCosa(@PathVariable String cosa, Model model) {
         return cosa;
     }
-*/    
+*/
 }

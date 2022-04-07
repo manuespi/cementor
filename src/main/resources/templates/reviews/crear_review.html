@@ -11,11 +11,11 @@
 
     <main class="flex-shrink-0">
         <div class="container">
-            <form class="form-signin" method="post" th:action="@{/crearReview}">
+            <form class="form-signin" method="post" th:action="@{/reviews/crearReview}">
                 <h2 class="form-signin-heading">Crea review</h2>
                 
-                <label for="mentoring">Elige mentoria:</label>
-                <select name="mentoring" id="mentoring">
+                <label for="mentoringId">Elige mentoria:</label>
+                <select name="mentoringId" id="mentoringId">
                     <option th:each="m: ${mentoringList}" 
                         th:value="${m.id}" th:text="${m.name}"></option>
                 </select>

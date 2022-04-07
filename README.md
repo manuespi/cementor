@@ -47,11 +47,9 @@ En el horario de cada usuario se registran las mentorías. En el perfil de cada 
 Cada mentoría cuenta con un chat grupal.
 
 
-### Links
-http://localhost:8080/inicio
-http://localhost:8080/mentorias
-http://localhost:8080/perfil
-http://localhost:8080/chat
-http://localhost:8080/calificar_mentor
-http://localhost:8080/crear_mentoria
+### Información de uso
+
+Entrar con usuario a como administrador.
+Las funcionalidades son los botones del header. Cada uno te lleva a su respectiva funcionalidad para ser probada.
+
 
