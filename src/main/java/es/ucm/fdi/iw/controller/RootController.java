@@ -124,6 +124,16 @@ public class RootController {
             
         return "comments/ver_comments";
     }
+
+    @GetMapping("/comments/ver_comments/{id}")
+    public String verCommentId(Model model, @PathVariable("id") String id)
+    {
+        model.addAttribute("commentList", entityManager
+            .createQuery("SELECT m FROM Comment m INNER JOIN m.tag r WHERE r.id=1", Comment.class)
+            .getResultList());
+            
+        return "comments/ver_comments";
+    }
     //@PostMapping("comments/ver_comments")
 
     @GetMapping("/mentorias/crear_mentoria")
