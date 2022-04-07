@@ -27,11 +27,16 @@
                     <input type="date" id="date" name="date" class="form-control" placeholder="Date" required="required">
                 </p>
                 <p>
-                    <label for="text" class="visually-hidden">ini</label>
-                    <input type="text" id="time" name="time" class="form-control" placeholder="Hora de inicio (ej.14:09)" required="required">
+                    <label for="ini" class="visually-hidden">ini</label>
+                    <input type="text" id="ini" name="ini" class="form-control" placeholder="Hora de inicio (ej.14:09)" required="required">
                 </p>
                 <p>
-                    <label for="time" class="visually-hidden">fin</label>
-                    <input type="text" id="time" name="time" class="form-control" placeholder="Hora de fin (ej.15:09)" required="required">
+                    <label for="fin" class="visually-hidden">fin</label>
+                    <input type="text" id="fin" name="fin" class="form-control" placeholder="Hora de fin (ej.15:09)" required="required">
                 </p>
+                <label for="tags">Choose a Tag:</label>
+                <select name="tags" id="tags" multiple>
+                    <option th:each="t: ${tagList}" 
+                        th:value="${t.id}" th:text="${t.name}"></option>
+                </select>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>

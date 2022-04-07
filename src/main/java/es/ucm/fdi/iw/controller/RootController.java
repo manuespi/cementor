@@ -122,15 +122,24 @@ public class RootController {
 
     @GetMapping("/mentorias/crear_mentoria")
     public String vistaCrearMentoria(Model model){
+        model.addAttribute("tagList", entityManager
+            .createQuery("SELECT t FROM Tag t", Tag.class)
+            .getResultList());
+
         return "mentorias/crear_mentoria";
     }
     @Transactional
     @PostMapping("/mentorias/crearMentoria")
-    public String crearMentoring(Model model, HttpSession session, @ModelAttribute Mentoring mentoria) {
+    public String crearMentoring(Model model, HttpSession session, @ModelAttribute Mentoring mentoria, @RequestParam(name = "tags", required = false) List<Long> ids) {
         //model.addAttribute("tag", new Tag());
             Long id = ((User) session.getAttribute("u")).getId();
             User u = entityManager.find(User.class, id);
             mentoria.setMentor(u);
+            List<Tag> listTags= new ArrayList<Tag>();
+            for(int i=0; i<ids.size(); i++){
+                listTags.add(entityManager.find(Tag.class, ids.get(i)));
+            }
+            mentoria.setTags(listTags);
             entityManager.persist(mentoria);
             return "mentorias/crear_mentoria";
     }
