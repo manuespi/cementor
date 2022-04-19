@@ -40,6 +40,11 @@ public class RootController {
         return "login";
     }
 
+    @GetMapping("/crear_cuenta")
+    public String crearCuenta(Model model){
+        return "crear_cuenta";
+    }
+    
 
     @GetMapping("/tags/crear_tag")
     public String vistacrearTag(Model model) {
@@ -66,25 +71,19 @@ public class RootController {
     public String crearComment(Model model) {
         //model.addAttribute("tag", new Tag());
         Tag tag = new Tag();
-        if(tag.setName("IW")!=true){
-            System.out.println("Error");
-        }
+        tag.setName("IW");
         tag.setDescription("iajsdioajsiodj");
         entityManager.persist(tag);
         entityManager.flush();
 
         tag = new Tag();
-        if(tag.setName("SAW")!=true){
-            System.out.println("Error");
-        }
+        tag.setName("SAW");
         tag.setDescription("iajsdioajsiodj");
         entityManager.persist(tag);
         entityManager.flush();
 
         tag = new Tag();
-        if(tag.setName("FWES")!=true){
-            System.out.println("Error");
-        }
+        tag.setName("FWES");
         tag.setDescription("iajsdioajsiodj");
         entityManager.persist(tag);
         entityManager.flush();
@@ -155,7 +154,7 @@ public class RootController {
             for(int i=0; i<ids.size(); i++){
                 listTags.add(entityManager.find(Tag.class, ids.get(i)));
             }
-            mentoria.setTags(listTags);
+            mentoria.setTag(listTags);
             entityManager.persist(mentoria);
             return "mentorias/crear_mentoria";
     }

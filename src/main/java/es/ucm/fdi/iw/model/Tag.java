@@ -23,22 +23,5 @@ public class Tag {
     @JoinColumn(name="MENTORING_ID")
     private List<Mentoring> mentoring;
 
-    public String getName(){
-        return this.name;
-    }
-    public String getDescription(){
-        return this.description;
-    }
-    public boolean setName(String a){
-        this.name=a;
-        return true;
-    }
-    public boolean setDescription(String description){
-        if(description.length() < 100){
-        this.description = description;
-        return true;
-        }
-        else return false;
-        
-    }
+
 }
