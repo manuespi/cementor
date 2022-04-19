@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Crear Mentoria</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <form class="form-signin" method="post" th:action="@{/mentorias/crear_mentoria}">
+                <h2 class="form-signin-heading">Crea mentoria</h2>
+               
+                <p>
+                    <label for="classroom" class="visually-hidden">classroom</label>
+                    <input type="text" id="classroom" name="classroom" class="form-control" placeholder="Classroom" required="required">
+                </p>
+                <p>
+                    <label for="mentoring" class="visually-hidden">name</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Mentoring name" required="required">
+                </p>
+                <p>
+                    <label for="date" class="visually-hidden">date</label>
+                    <input type="date" id="date" name="date" class="form-control" placeholder="Date" required="required">
+                </p>
+                <p>
+                    <label for="ini" class="visually-hidden">ini</label>
+                    <input type="text" id="ini" name="ini" class="form-control" placeholder="Hora de inicio (ej.14:09)" required="required">
+                </p>
+                <p>
+                    <label for="fin" class="visually-hidden">fin</label>
+                    <input type="text" id="fin" name="fin" class="form-control" placeholder="Hora de fin (ej.15:09)" required="required">
+                </p>
+                <label for="tags">Elige uno o más Tags:</label>
+                <select name="tagIds" id="tagIds" multiple>
+                    <option th:each="t: ${tagList}" 
+                        th:value="${t.id}" th:text="${t.name}"></option>
+                </select>
+                <label for="tags">Tecla Ctrl para seleccionar más de uno.</label>
+               
+                <div>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
+                </div>

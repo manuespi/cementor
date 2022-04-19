@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Lista de Tags</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <form class="form-signin" method="get" th:action="@{/tags/lista_tags}">
+                <h2 class="form-signin-heading">Lista de tags</h2>
+
+                <table name="tags" id="tags" multiple>
+                    <tr th:each="t: ${tagList}">
+                    <td 
+                        th:value="${t.id}" th:text="${t.name}"></td>
+                    <td 
+                        th:value="${t.id}" th:text="${t.description}"></td>
+                    </tr>
+                </table>
+                
+            </form>
+        </div>
+    </main>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Crear Comentario</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <form class="form-signin" method="post" th:action="@{/crearComment}">
+                <h2 class="form-signin-heading">crea el comentario</h2>
+                
+                <label for="tags">Elige uno o más Tags:</label>
+                <select name="tags" id="tags" multiple>
+                    <option th:each="t: ${tagList}" 
+                        th:value="${t.id}" th:text="${t.name}"></option>
+                </select>
+                <label for="tags">Tecla Ctrl para seleccionar más de uno.</label>
+               
+                <p>
+                    <label for="text" class="visually-hidden">text</label>
+                    <input type="text" id="text" name="text" class="form-control" placeholder="escribir comentario" required="required">
+                </p>
+               
+                <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>

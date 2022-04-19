@@ -313,7 +313,7 @@ public class UserController {
 		return "{\"result\": \"message sent.\"}";
 	}	
 
-	@GetMapping("/crearComment")
+	//@GetMapping("/crearComment")
     public String commentForm(Model model){
         model.addAttribute("tagList", entityManager
             .createQuery("SELECT t FROM TAG t",Tag.class)
@@ -322,10 +322,5 @@ public class UserController {
     }
     
 
-    @Transactional
-    @RequestMapping(value = "/crearComment", method = RequestMethod.POST)
-    public String createComment(Model model, @ModelAttribute Comment comment){
-        entityManager.persist(comment);
-        return commentForm(model);
-    }
+ 
 }

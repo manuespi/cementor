@@ -21,6 +21,9 @@ import es.ucm.fdi.iw.model.Tag;
 @Controller
 @RequestMapping("/tag")
 public class TagController {
+    
+    @Autowired
+    EntityManager entityManager;
 
     @RequestMapping(value = "/buscarTagPorNombre", method = RequestMethod.POST)
     public String buscarTag(Model model, String nombre){ //esta es para user y para admin

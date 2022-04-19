@@ -39,12 +39,7 @@ public class AdminController {
     //Tag
     @Autowired
 	private EntityManager entityManager;
-    @Transactional
-    @RequestMapping(value = "/crearTag", method = RequestMethod.POST)
-    public String createTag(Model model, @ModelAttribute Tag tag){
-        entityManager.persist(tag);
-        return "crear_tag";
-    }
+   
 
     @Transactional
     @RequestMapping(value = "/actualizarTag", method = RequestMethod.POST)

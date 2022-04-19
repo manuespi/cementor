@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Crear Mentoria</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <form class="form-signin" method="post" th:action="@{/reviews/crearReview}">
+                <h2 class="form-signin-heading">Crea review</h2>
+                
+                <label for="mentoringId">Elige mentoria:</label>
+                <select name="mentoringId" id="mentoringId">
+                    <option th:each="m: ${mentoringList}" 
+                        th:value="${m.id}" th:text="${m.name}"></option>
+                </select>
+                <div>
+                <label for = "score">Score:</label>
+                <select name="score" id="score">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                </div>         
+                <p>
+                    <label for="text" class="visually-hidden">text</label>
+                    <input type="text" id="text" name="text" class="form-control" placeholder="escribir review" required="required">
+                </p>
+               
+                <button class="btn btn-lg btn-primary btn-block" type="submit">submit</button>
