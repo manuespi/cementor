@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQueries;
+import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
@@ -36,18 +38,42 @@ public class RootController {
 	private EntityManager entityManager;
 
 	@GetMapping("/login")
-    public String login(Model model) {
+    public String vistaLogin(Model model) {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(Model model, @RequestParam(value = "username", required = true) String u,
+    @RequestParam(value = "password", required = true) String pass) {
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u "
+        + "WHERE u.username = ?1", User.class);
+        User aux = query.setParameter(1, u).getSingleResult();
+
+        if(aux.getPassword() == pass){}
+
         return "login";
     }
 
     @GetMapping("/crear_cuenta")
-    public String crearCuenta(Model model){
+    public String vistaCrearCuenta(Model model){
         return "crear_cuenta";
     }
-    
+
+    @Transactional
+    @PostMapping("/crear_cuenta")
+    public String crearCuenta(Model model, @ModelAttribute User user){
+        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u "
+        + "WHERE u.username = ?1", User.class);
+        User aux = query.setParameter(1, user.getUsername()).getSingleResult();
+
+        if(aux.getUsername() != user.getUsername()) //if(aux.getUsername() == NUL)
+        entityManager.persist(user);
+        
+        return "crear_cuenta";
+    }
 
     @GetMapping("/tags/crear_tag")
-    public String vistacrearTag(Model model) {
+    public String vistaCrearTag(Model model) {
         //model.addAttribute("tag", new Tag());
         return "tags/crear_tag";
     }
