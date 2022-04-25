@@ -15,7 +15,8 @@
                     <div class="box">
                             <div class="tema" th:text="${t.text}"></div>
                                 <div class="info">
-                                    <div class="autor_fecha"> <a class="autor" th:text="${t.user.username}"></a>(06/04/2022) 17:50</div>   
+                                    <div class="autor_fecha"> <a class="autor" th:text="${t.user.username}"></a><div class="fecha" th:text="${t.date}"><div></div>
+                                   
                                         <div class="tags" th:each="c : ${t.tag}">
                                             <div class="tag_element"><a th:href="@{ver_comments/{id}(id=1)}" th:text="${c.name}"></a></div>
                                         </div>  

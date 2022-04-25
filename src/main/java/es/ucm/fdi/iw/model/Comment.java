@@ -1,5 +1,7 @@
 package es.ucm.fdi.iw.model;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import javax.persistence.*;
 import lombok.Data;
@@ -18,10 +20,11 @@ public class Comment {
     @JoinColumn(name="TAG_ID")
     private List<Tag> tag;
     private String text;
-    
+    private Date date;
     @ManyToOne
     @JoinColumn(name="USER_ID")
     private User user;
+    
 
     
 

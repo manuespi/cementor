@@ -16,10 +16,16 @@
 
                 <table name="tags" id="tags" multiple>
                     <tr th:each="t: ${tagList}">
-                    <td 
-                        th:value="${t.id}" th:text="${t.name}"></td>
-                    <td 
-                        th:value="${t.id}" th:text="${t.description}"></td>
+                    <td>
+                        <input type="text" th:value="${t.name}"/>
+                    </td> 
+                    <td>
+                        <input type="text" th:value="${t.description}"/>
+                    </td>
+                    <td>
+                        <button type="button" th:attr="data-id=${t.id}" class="url mv">Edit</button>
+                        <button type="button" th:attr="data-id=${t.id}" class="url rm">Borrar</button>
+                    </td>
                     </tr>
                 </table>
                 
@@ -28,6 +34,24 @@
     </main>
 
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script>
+        document.querySelectorAll(".mv").forEach(b => b.addEventListener("click", e => {
+            const id = e.target.dataset.id;
+            const row = e.target.parentNode.parentNode;
+            const name = row.children[0].children[0].value;
+            const description = row.children[1].children[0].value;
+            const datos = {id, name, description};
+            go("/tags/actualizar_tag", "POST", datos).then(d => console.log("todo bien"));
+        }));
+    </script>
+    <script>
+        document.querySelectorAll(".rm").forEach(b => b.addEventListener("click", e => {
+            const id = e.target.dataset.id;
+            const datos = {id};
+            const row = e.target.parentNode.parentNode;
+            go("/tags/borrar_tag", "POST", datos).then(d => row.remove());
+        }));
+    </script>
 </body>
 
 </html>

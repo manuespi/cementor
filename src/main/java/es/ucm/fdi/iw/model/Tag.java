@@ -22,6 +22,4 @@ public class Tag {
     @ManyToMany
     @JoinColumn(name="MENTORING_ID")
     private List<Mentoring> mentoring;
-
-
 }

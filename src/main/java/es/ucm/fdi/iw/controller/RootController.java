@@ -1,13 +1,18 @@
 package es.ucm.fdi.iw.controller;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.time.ZoneId;
 import javax.persistence.EntityManager;
 import javax.persistence.NamedQueries;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -85,6 +90,38 @@ public class RootController {
             return "tags/crear_tag";
     }
 
+    @GetMapping("/tags/actualizar_tag")
+    public String vistaActualizarTag(Model model) {
+        //model.addAttribute("tag", new Tag());
+        return "tags/lista_tags";
+    }
+    @Transactional
+    @ResponseBody
+    @PostMapping("/tags/actualizar_tag")
+    public String actualizarTag(Model model, HttpSession session, @RequestBody JsonNode data) {
+        //model.addAttribute("tag", new Tag());
+        Tag t = entityManager.find(Tag.class, data.get("id").asLong());
+        t.setDescription(data.get("description").asText());
+        t.setName(data.get("name").asText());
+        return "{\"result\": \"ok\"}";
+    }
+
+    @GetMapping("/tags/borrar_tag")
+    public String vistaBorrarTag(Model model) {
+        //model.addAttribute("tag", new Tag());
+        return "tags/lista_tags";
+    }
+    @Transactional
+    @ResponseBody
+    @PostMapping("/tags/borrar_tag")
+    public String borrarTag(Model model, HttpSession session, @RequestBody JsonNode data) {
+        //model.addAttribute("tag", new Tag());
+        Tag t = entityManager.find(Tag.class, data.get("id").asLong());
+        entityManager.remove(t);
+        return "{\"result\": \"ok\"}";
+        
+    }
+
     @GetMapping("/tags/lista_tags")
     public String vistaListaTags(Model model) {
         model.addAttribute("tagList", entityManager
@@ -134,6 +171,9 @@ public class RootController {
             listTags.add(entityManager.find(Tag.class, ids.get(i)));
         }
         comment.setTag(listTags);
+        LocalDate aux = LocalDate.now();
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        comment.setDate(Date.from(aux.atStartOfDay(defaultZoneId).toInstant()));
         entityManager.persist(comment);
         return "comments/crear_comment";
     }
