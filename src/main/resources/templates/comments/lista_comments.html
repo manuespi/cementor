@@ -14,16 +14,15 @@
                     <h2 class="form-signin-heading">Lista de Comentarios</h2>
     
                     <table name="comments" id="comments" multiple>
-                        <tr th:each="t: ${commentList}">
+                        <tr th:each="c: ${commentList}">
                         <td>
-                            <input type="text" th:value="${t.user}"/>
+                            <input readonly="readonly" type="text" th:value="${c.user.username}"/>
                         </td> 
                         <td>
-                            <input type="text" th:value="${t.text}"/>
+                            <input readonly="readonly" type="text" th:value="${c.text}"/>
                         </td>
                         <td>
-                            <button type="button" th:attr="data-id=${t.id}" class="url mv">Edit</button>
-                            <button type="button" th:attr="data-id=${t.id}" class="url rm">Borrar</button>
+                            <button type="button" th:attr="data-id=${c.id}" class="url rm">Borrar</button>
                         </td>
                         </tr>
                     </table>
@@ -34,21 +33,11 @@
     
         <th:block th:replace="fragments/footer.html :: footer" />
         <script>
-            document.querySelectorAll(".mv").forEach(b => b.addEventListener("click", e => {
-                const id = e.target.dataset.id;
-                const row = e.target.parentNode.parentNode;
-                const text = row.children[1].children[0].value;
-                const userId = null;
-                const datos = {id, text, userId};
-                go("/comments/actualizar_comment", "POST", datos).then(d => console.log("comment bien"));
-            }));
-        </script>
-        <script>
             document.querySelectorAll(".rm").forEach(b => b.addEventListener("click", e => {
                 const id = e.target.dataset.id;
                 const datos = {id};
                 const row = e.target.parentNode.parentNode;
-                go("/tags/borrar_tag", "POST", datos).then(d => row.remove());
+                go("/comments/borrar_comment", "POST", datos).then(d => row.remove());
             }));
         </script>
     </body>
