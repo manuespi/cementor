@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <th:block th:replace="fragments/head :: header" />
+        <title>Lista de Comentarios</title>
+    </head>
+    
+    <body class="d-flex flex-column h-100">
+        <header th:replace="fragments/nav.html :: nav"></header>
+    
+        <main class="flex-shrink-0">
+            <div class="container">
+                <form class="form-signin" method="get" th:action="@{/comments/lista_comments}">
+                    <h2 class="form-signin-heading">Lista de Comentarios</h2>
+    
+                    <table name="comments" id="comments" multiple>
+                        <tr th:each="t: ${commentList}">
+                        <td>
+                            <input type="text" th:value="${t.user}"/>
+                        </td> 
+                        <td>
+                            <input type="text" th:value="${t.text}"/>
+                        </td>
+                        <td>
+                            <button type="button" th:attr="data-id=${t.id}" class="url mv">Edit</button>
+                            <button type="button" th:attr="data-id=${t.id}" class="url rm">Borrar</button>
+                        </td>
+                        </tr>
+                    </table>
+                    
+                </form>
+            </div>
+        </main>
+    
+        <th:block th:replace="fragments/footer.html :: footer" />
+        <script>
+            document.querySelectorAll(".mv").forEach(b => b.addEventListener("click", e => {
+                const id = e.target.dataset.id;
+                const row = e.target.parentNode.parentNode;
+                const text = row.children[1].children[0].value;
+                const userId = null;
+                const datos = {id, text, userId};
+                go("/comments/actualizar_comment", "POST", datos).then(d => console.log("comment bien"));
+            }));
+        </script>
+        <script>
+            document.querySelectorAll(".rm").forEach(b => b.addEventListener("click", e => {
+                const id = e.target.dataset.id;
+                const datos = {id};
+                const row = e.target.parentNode.parentNode;
+                go("/tags/borrar_tag", "POST", datos).then(d => row.remove());
+            }));
+        </script>
+    </body>
+</html>

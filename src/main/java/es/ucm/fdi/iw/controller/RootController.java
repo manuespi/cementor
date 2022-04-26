@@ -160,6 +160,26 @@ public class RootController {
         return "comments/crear_comment";
     }
 
+    @GetMapping("/tags/actualizar_comment")
+    public String vistaActualizarComment(Model model) {
+        return "comments/lista_comments";
+    }
+    @Transactional
+    @ResponseBody
+    @PostMapping("/tags/actualizar_comment")
+    public String actualizarComment(Model model, HttpSession session, @RequestBody JsonNode data) {
+        Comment t = entityManager.find(Comment.class, data.get("id").asLong());
+        //Date update
+        LocalDate aux = LocalDate.now();
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        t.setDate(Date.from(aux.atStartOfDay(defaultZoneId).toInstant()));
+        //Text
+        t.setText(data.get("text").asText());
+        
+        t.setName(data.get("name").asText());
+        return "{\"result\": \"ok\"}";
+    }
+
     @Transactional
     @PostMapping("/crearComment")
     public String createComment(Model model,HttpSession session, @ModelAttribute Comment comment, @RequestParam(name = "tags", required = false) List<Long> ids){
