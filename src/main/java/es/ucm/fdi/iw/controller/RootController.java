@@ -7,6 +7,7 @@ import java.util.List;
 import java.time.ZoneId;
 import javax.persistence.EntityManager;
 import javax.persistence.NamedQueries;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -18,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.metrics.StartupStep.Tags;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +43,9 @@ public class RootController {
 
     @Autowired
 	private EntityManager entityManager;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 	@GetMapping("/login")
     public String vistaLogin(Model model) {
@@ -67,39 +72,47 @@ public class RootController {
     @Transactional
     @PostMapping("/crear_cuenta")
     public String crearCuenta(Model model, @ModelAttribute User user){
-        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u "
-        + "WHERE u.username = ?1", User.class);
-        User aux = query.setParameter(1, user.getUsername()).getSingleResult();
+        boolean found = true;
+        try {
+            User u = entityManager.createNamedQuery("User.byUsername", User.class)
+            .setParameter("username", user.getUsername())
+            .getSingleResult();
+        } catch (NoResultException nre) {
+            found = false;
+        }
+        if (found) {
+            model.addAttribute("error", "Nombre de usuario ya cogido. Sé más original.");
+            return "/crear_cuenta";
+        }
 
-        if(aux.getUsername() != user.getUsername()) //if(aux.getUsername() == NUL)
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
+        user.setRoles("USER");
+        user.setScore(0.0);
         entityManager.persist(user);
         
-        return "crear_cuenta";
+        return "login";
     }
 
     @GetMapping("/tags/crear_tag")
     public String vistaCrearTag(Model model) {
-        //model.addAttribute("tag", new Tag());
         return "tags/crear_tag";
     }
     @Transactional
     @PostMapping("/tags/crear_tag")
     public String crearTag(Model model, HttpSession session, @ModelAttribute Tag tag) {
-        //model.addAttribute("tag", new Tag());
             entityManager.persist(tag);
             return "tags/crear_tag";
     }
 
     @GetMapping("/tags/actualizar_tag")
     public String vistaActualizarTag(Model model) {
-        //model.addAttribute("tag", new Tag());
         return "tags/lista_tags";
     }
     @Transactional
     @ResponseBody
     @PostMapping("/tags/actualizar_tag")
     public String actualizarTag(Model model, HttpSession session, @RequestBody JsonNode data) {
-        //model.addAttribute("tag", new Tag());
         Tag t = entityManager.find(Tag.class, data.get("id").asLong());
         t.setDescription(data.get("description").asText());
         t.setName(data.get("name").asText());
@@ -108,14 +121,12 @@ public class RootController {
 
     @GetMapping("/tags/borrar_tag")
     public String vistaBorrarTag(Model model) {
-        //model.addAttribute("tag", new Tag());
         return "tags/lista_tags";
     }
     @Transactional
     @ResponseBody
     @PostMapping("/tags/borrar_tag")
     public String borrarTag(Model model, HttpSession session, @RequestBody JsonNode data) {
-        //model.addAttribute("tag", new Tag());
         Tag t = entityManager.find(Tag.class, data.get("id").asLong());
         entityManager.remove(t);
         return "{\"result\": \"ok\"}";
@@ -132,7 +143,6 @@ public class RootController {
     @Transactional
     @GetMapping("/comments/crear_comment")
     public String crearComment(Model model) {
-        //model.addAttribute("tag", new Tag());
         Tag tag = new Tag();
         tag.setName("IW");
         tag.setDescription("iajsdioajsiodj");
@@ -212,7 +222,6 @@ public class RootController {
     @Transactional
     @PostMapping("/mentorias/crear_mentoria")
     public String crearMentoring(Model model, HttpSession session, @ModelAttribute Mentoring mentoria, @RequestParam(name = "tagIds", required = false) List<Long> ids) {
-        //model.addAttribute("tag", new Tag());
             Long id = ((User) session.getAttribute("u")).getId();
             User u = entityManager.find(User.class, id);
             mentoria.setMentor(u);
