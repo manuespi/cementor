@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <th:block th:replace="fragments/head :: header" />
+        <title>Lista de Comentarios</title>
+    </head>
+    
+    <body class="d-flex flex-column h-100">
+        <header th:replace="fragments/nav.html :: nav"></header>
+    
+        <main class="flex-shrink-0">
+            <div class="container">
+                <form class="form-signin" method="get" th:action="@{/comments/lista_comments}">
+                    <h2 class="form-signin-heading">Lista de Comentarios</h2>
+    
+                    <table name="comments" id="comments" multiple>
+                        <tr th:each="c: ${commentList}">
+                        <td>
+                            <input readonly="readonly" type="text" th:value="${c.user.username}"/>
+                        </td> 
+                        <td>
+                            <input readonly="readonly" type="text" th:value="${c.text}"/>
+                        </td>
+                        <td>
+                            <button type="button" th:attr="data-id=${c.id}" class="url rm">Borrar</button>
+                        </td>
+                        </tr>
+                    </table>
+                    
+                </form>
+            </div>
+        </main>
+    
+        <th:block th:replace="fragments/footer.html :: footer" />
+        <script>
+            document.querySelectorAll(".rm").forEach(b => b.addEventListener("click", e => {
+                const id = e.target.dataset.id;
+                const datos = {id};
+                const row = e.target.parentNode.parentNode;
+                go("/comments/borrar_comment", "POST", datos).then(d => row.remove());
+            }));
+        </script>
+    </body>
+</html>

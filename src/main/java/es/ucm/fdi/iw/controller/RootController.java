@@ -140,6 +140,14 @@ public class RootController {
             .getResultList());
         return "/tags/lista_tags";
     }
+    @GetMapping("/comments/lista_comments")
+    public String vistaListaComments(Model model) {
+        model.addAttribute("commentList", entityManager
+            .createQuery("SELECT c FROM Comment c", Comment.class)
+            .getResultList());
+        return "/comments/lista_comments";
+    }
+
     @Transactional
     @GetMapping("/comments/crear_comment")
     public String crearComment(Model model) {
@@ -168,6 +176,19 @@ public class RootController {
             .getResultList());
 
         return "comments/crear_comment";
+    }
+
+    @GetMapping("/comments/borrar_comment")
+    public String vistaBorrarComment(Model model) {
+        return "comments/lista_comment";
+    }
+    @Transactional
+    @ResponseBody
+    @PostMapping("/comments/borrar_comment")
+    public String borrarComment(Model model, HttpSession session, @RequestBody JsonNode data) {
+        Comment t = entityManager.find(Comment.class, data.get("id").asLong());
+        entityManager.remove(t);
+        return "{\"result\": \"ok\"}"; 
     }
 
     @Transactional
