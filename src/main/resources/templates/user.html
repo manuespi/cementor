@@ -10,6 +10,19 @@
 
 <body class="d-flex flex-column h-100">
     <header th:replace="fragments/nav.html :: nav"></header>
+    <!--Para diferenciar los bloques, pero siempre sale hola no soy un user-->
+    <th:block th:if="${session.userrol}">
+    <h1>Hola soy un user.</h1>
+    </th:block>
+    <th:block th:if="${session.mentorrol}">
+    <h1>Hola soy un mentor.</h1>
+    </th:block>
+    <th:block th:if="${session.adminrol}">
+    <h1>Hola soy un admin.</h1>
+    </th:block>
+    <th:block th:unless="${session.userrol}">
+    <h1>Hola no soy un user.</h1>
+    </th:block>
 
     <main class="flex-shrink-0">
         <div id="books" class="border border-2 border-primary rounded">

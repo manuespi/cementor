@@ -165,6 +165,11 @@ public class UserController {
 		// update user session so that changes are persisted in the session, too
         if (requester.getId() == target.getId()) {
             session.setAttribute("u", target);
+			if(target.getRoles().equals("USER"))
+			session.setAttribute("userrol", "USER");
+			else if(target.getRoles().equals("MENTOR"))
+			session.setAttribute("mentorrol", "MENTOR");
+			else session.setAttribute("adminrol", "ADMIN");
         }
 
 		return "user";

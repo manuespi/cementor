@@ -78,7 +78,7 @@
                             <li class="nav-item mx-2">
                                 <a class="nav-link" th:href="@{/perfil/{id}(id=${session.u.id})}">
                                     <img class="iwthumb rounded" th:src="@{/user/{id}/pic(id=${session.u.id})}">
-                                    <span>Mi Perfil</span> <!--th:text="${session.u.username}"-->         
+                                    <span th:text="${session.u.username}">Mi Perfil</span> <!--th:text="${session.u.username}"-->         
                                 </a>
                             </li>
                             <li class="nav-item align-self-center me-4">
