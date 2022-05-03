@@ -29,6 +29,7 @@ import es.ucm.fdi.iw.model.Mentoring;
 import es.ucm.fdi.iw.model.Review;
 import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.User.Role;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -52,17 +53,6 @@ public class RootController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(Model model, @RequestParam(value = "username", required = true) String u,
-    @RequestParam(value = "password", required = true) String pass) {
-        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u "
-        + "WHERE u.username = ?1", User.class);
-        User aux = query.setParameter(1, u).getSingleResult();
-
-        if(aux.getPassword() == pass){}
-
-        return "login";
-    }
 
     @GetMapping("/crear_cuenta")
     public String vistaCrearCuenta(Model model){
@@ -87,11 +77,12 @@ public class RootController {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
-        user.setRoles("USER");
         user.setScore(0.0);
+        user.setRoles(model.getAttribute("selection").toString());
         entityManager.persist(user);
+
         
-        return "login";
+        return "crear_cuenta";
     }
 
     @GetMapping("/tags/crear_tag")

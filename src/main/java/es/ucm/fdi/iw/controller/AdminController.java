@@ -46,11 +46,11 @@ public class AdminController {
     public String updateTag(Model model, @ModelAttribute Tag tag){
         Tag tagAux = entityManager.find(Tag.class, tag.getId());
 
-        if(tagAux.setName(tag.getName())){
-            if(tagAux.setDescription(tag.getDescription()))
+    tagAux.setName(tag.getName());
+    tagAux.setDescription(tag.getDescription());
             return "actualizar_tag";
-        }
-        return "actualizar_tag"; //poner un alert?
+        
+
     }
 
     @Transactional
