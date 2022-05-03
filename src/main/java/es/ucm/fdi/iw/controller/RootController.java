@@ -61,7 +61,7 @@ public class RootController {
 
     @Transactional
     @PostMapping("/crear_cuenta")
-    public String crearCuenta(Model model, @ModelAttribute User user){
+    public String crearCuenta(Model model, @ModelAttribute User user, HttpSession session){
         boolean found = true;
         try {
             User u = entityManager.createNamedQuery("User.byUsername", User.class)
@@ -78,9 +78,23 @@ public class RootController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         user.setScore(0.0);
+        if(user.getRoles().compareTo("MENTOR")==0){
+            user.setRoles("USER,MENTOR");
+        }
         
         entityManager.persist(user);
-
+        entityManager.flush();
+        if(user.getId()!=null){
+            User target = entityManager.find(User.class, user.getId());
+            model.addAttribute("user", target);
+            session.setAttribute("u", target);
+            if(target.getRoles().equals("USER"))
+			session.setAttribute("userrol", "USER");
+			else if(target.getRoles().equals("MENTOR"))
+			session.setAttribute("mentorrol", "MENTOR");
+			else session.setAttribute("adminrol", "ADMIN");
+            return "user";
+        }
         
         return "crear_cuenta";
     }
@@ -290,6 +304,14 @@ public class RootController {
             .getResultList());
 
         return "reviews/lista_reviews";
+    }
+
+    @GetMapping("mentor/{id}")
+	@Transactional
+	public String cargarVistaMentor(@PathVariable long id, Model model, HttpSession session){
+        User target = entityManager.find(User.class, id);
+        model.addAttribute("user", target);
+        return "mentor";
     }
   
 
