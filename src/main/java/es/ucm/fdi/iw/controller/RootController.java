@@ -78,7 +78,7 @@ public class RootController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         user.setScore(0.0);
-        user.setRoles(model.getAttribute("selection").toString());
+        
         entityManager.persist(user);
 
         
