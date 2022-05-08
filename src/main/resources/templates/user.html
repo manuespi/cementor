@@ -12,18 +12,59 @@
     <header th:replace="fragments/nav.html :: nav"></header>
     <!--Para diferenciar los bloques, pero siempre sale hola no soy un user-->
     <th:block th:if="${session.u.hasRole('USER')}">
-    <h1>Hola soy un user.</h1>
+    <h1>Cuenta de usuario</h1>
     </th:block>
-
+    <th:block th:if="${session.u.hasRole('MENTOR')}">
+    <h1>Cuenta de mentor</h1>
+    </th:block>
     <main class="flex-shrink-0">
-        <div id="books" class="border border-2 border-primary rounded">
-            <label for="isbn">ISBN</label><input id="isbn" value="9780140328721" />
-            <button id="fetchBook">Buscar datos online</button>
-            <img id="portada" alt="portada del libro" />
-            <form th:action="@{/user/__${user.id}__/pic}">
-                <button id="postPortada">Subir portada al servidor</button>
+        <div class="container mt-5">
+            <h2>Buscar Mentoria por Tag</h2>
+            <input type="text" id="tagBuscado" class="form-control">
+            <button id="buscarMentoriaxTag" class="btn btn-info mb-2">Buscar Mentoria</button>
+            <table id="resultado"></table>
+        </div>
+        <div class="container">
+            <form class="form-signin" method="get" th:action="@{/mentorias/lista_mentorias}">
+                
+
+                <table name="mentorias" id="mentorias" multiple>
+                    <h2 class="form-signin-heading">Lista de Mentorias</h2>
+                    <tr th:each="m: ${mentoringList}">
+                        <td>
+                            <input type="text" th:value="${m.name}" readonly="readonly"/>
+                        </td> 
+                        <td>
+                            <input type="text" th:value="${m.classroom}"readonly="readonly"/>
+                        </td>
+                        <td> 
+                            <input type="text" th:value="${m.date}" readonly="readonly"/>
+                        </td>
+                        <td> 
+                            <input type="text" th:value="${m.ini}" readonly="readonly"/>
+                        </td>
+                        <td> 
+                            <input type="text" th:value="${m.fin}" readonly="readonly"/>
+                        </td> 
+                    </tr>
+                </table>
+                
             </form>
         </div>
+        <script> 
+            const formulario = document.querySelector('#tagBuscado');
+            const boton =document.querySelector('#buscarMentoriaxTag');
+            const resultado = document.querySelector('#resultado');
+            const filtrar = () =>{
+                    const texto = formulario.value.toLoweCase();
+                    if(nombre.indexOf() !== -1){
+                        resultado.innerHTML += ` 
+                        <li>${mentoring.nombre} : ${mentoring.Date} : ${mentoring.Title}</li>
+                        `
+                    }
+            }
+            boton.addEventListener('click', filtrar);
+        </script>
         <div id="movies" class="border border-2 border-secondary rounded">
             <label for="imdb">IMDB</label><input id="imdb" value="tt11286314" />
             <button id="fetchMovie">Buscar datos online</button>
@@ -90,7 +131,7 @@
 
         // ver https://openlibrary.org/dev/docs/api/books
         // no requieren "api key", pero necesitas 1 consulta adicional por autor
-        function fetchBookData(isbn, targetImg) {
+        function  fetchBookData(book, targetImg) {
             go(`https://openlibrary.org/isbn/${isbn}.json`, "GET", {}, {}).then(bookInfo => {
                 authorLookups = bookInfo.authors.map(a =>
                     go(`https://openlibrary.org${a.key}.json`, "GET", {}, {}));

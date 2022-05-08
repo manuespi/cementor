@@ -12,37 +12,57 @@
     <main class="flex-shrink-0">
         <div class="container">
             <form class="form-signin" method="get" th:action="@{/mentorias/lista_mentorias}">
-                <h2 class="form-signin-heading">Lista de Mentorias</h2>
+                
 
                 <table name="mentorias" id="mentorias" multiple>
-                    
+                    <h2 class="form-signin-heading">Lista de Mentorias</h2>
                     <tr th:each="m: ${mentoringList}">
-                     <!--<td th:each="m: ${mentoringList}" 
-                        th:value="${m.id}" th:text="${m.mentor.name}"></td>-->
-                        <td  
-                        th:value="${m.id}" th:text="${m.classroom}"></td>
-                        <td 
-                        th:value="${m.id}" th:text="${m.date}"></td>
-                        <td 
-                        th:value="${m.id}" th:text="${m.ini}"></td>
-                        <td
-                        th:value="${m.id}" th:text="${m.fin}"></td>
-                        <td 
-                        href="actualizar_mentoria.html">
-                            <button type="button" class="url">Editar</button>
+                        <td>
+                            <input type="text" th:value="${m.name}"/>
+                        </td> 
+                        <td>
+                            <input type="text" th:value="${m.classroom}"/>
                         </td>
-                        <td 
-                        href="actualizar_tag.html">
-                            <button type="button" class="url">Borrar</button>
+                        <td> 
+                            <input type="text" th:value="${m.date}"/>
                         </td>
+                        <td> 
+                            <input type="text" th:value="${m.ini}"/>
+                        </td>
+                        <td> 
+                            <input type="text" th:value="${m.fin}"/>
+                            <td>
+                                <button type="button" th:attr="data-id=${m.id}" class="url mv">Edit</button>
+                                <button type="button" th:attr="data-id=${m.id}" class="url rm">Borrar</button>
+                            </td>
                     </tr>
                 </table>
                 
             </form>
         </div>
     </main>
-
     <th:block th:replace="fragments/footer.html :: footer" />
+    <script>
+        document.querySelectorAll(".mv").forEach(b => b.addEventListener("click", e => {
+            const id = e.target.dataset.id;
+            const row = e.target.parentNode.parentNode;
+            const name = row.children[0].children[0].value;
+            const aula = row.children[1].children[0].value;
+            const date = row.children[2].children[0].value;
+            const ini = row.children[3].children[0].value;
+            const fin = row.children[4].children[0].value;
+            const datos = {id, name, classroom, date, ini, fin};
+            go("/mentoring/actualizar_mentorias", "POST", datos).then(d => console.log("todo bien"));
+        }));
+    </script>
+    <script>
+        document.querySelectorAll(".rm").forEach(b => b.addEventListener("click", e => {
+            const id = e.target.dataset.id;
+            const datos = {id};
+            const row = e.target.parentNode.parentNode;
+            go("/mentoring/borrar_mentorias", "POST", datos).then(d => row.remove());
+        }));
+    </script>
 </body>
 
 </html>

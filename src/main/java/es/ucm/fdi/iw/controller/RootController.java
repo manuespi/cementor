@@ -273,6 +273,34 @@ public class RootController {
         return "mentorias/lista_mentorias";
     }
 
+    @GetMapping("/mentorias/actualizar_mentorias")
+    public String vistaActualizarMentoria(Model model) {
+        return "mentotias/lista_mentorias";
+    }
+    @Transactional
+    @ResponseBody
+    @PostMapping("/mentorias/actualizar_mentorias")
+    public String actualizarMentoria(Model model, HttpSession session, @RequestBody JsonNode data) {
+        Tag t = entityManager.find(Tag.class, data.get("id").asLong());
+        t.setDescription(data.get("description").asText());
+        t.setName(data.get("name").asText());
+        return "{\"result\": \"ok\"}";
+    }
+
+    @GetMapping("/tags/borrar_mentorias")
+    public String vistaBorrarMentoria(Model model) {
+        return "mentorias/lista_mentorias";
+    }
+    @Transactional
+    @ResponseBody
+    @PostMapping("/mentorias/borrar_mentorias")
+    public String borrarMentoria(Model model, HttpSession session, @RequestBody JsonNode data) {
+        Mentoring m = entityManager.find(Mentoring.class, data.get("id").asLong());
+        entityManager.remove(m);
+        return "{\"result\": \"ok\"}";
+        
+    }
+
 
 
     @Transactional
