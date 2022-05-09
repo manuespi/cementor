@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.extern.log4j.Log4j;
 
 import javax.persistence.*;
 
@@ -56,8 +55,10 @@ public class User implements Transferable<User.Transfer> {
     private List<Comment> comments;
 
     @OneToMany
-    //@JoinColumn(name = "MENTORING_ID")
-    private List<Mentoring> mentorings;
+    @JoinColumn(name = "MENTOR_ID")
+    private List<Mentoring> mentoringsOutgoing;
+    @ManyToMany (mappedBy ="alumnos")
+    private List<Mentoring> mentoringsIncoming;
 
     @OneToMany
     //@JoinColumn(name = "REVIEW_ID")

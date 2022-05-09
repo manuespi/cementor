@@ -2,6 +2,7 @@ package es.ucm.fdi.iw.controller;
 
 import es.ucm.fdi.iw.LocalData;
 import es.ucm.fdi.iw.model.Comment;
+import es.ucm.fdi.iw.model.Mentoring;
 import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.Transferable;
@@ -79,7 +80,7 @@ public class UserController {
      */
 	@ResponseStatus(
 		value=HttpStatus.FORBIDDEN, 
-		reason="No eres administrador, y éste no es tu perfil")  // 403
+		reason="No eres administrador, y este no es tu perfil")  // 403
 	public static class NoEsTuPerfilException extends RuntimeException {}
 
 	/**
@@ -144,6 +145,10 @@ public class UserController {
         // retrieve requested user
         target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
+
+		model.addAttribute("mentoringList", entityManager
+            .createQuery("SELECT m FROM Mentoring m WHERE ", Mentoring.class)
+            .getResultList());
 		
 		if (requester.getId() != target.getId() &&
 				! requester.hasRole(Role.ADMIN)) {

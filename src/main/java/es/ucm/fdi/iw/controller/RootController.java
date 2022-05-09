@@ -265,7 +265,15 @@ public class RootController {
     }
     
     @GetMapping("/mentorias/lista_mentorias")
-    public String verListaMentorings(Model model) {
+    public String verListaMentorings(Model model, HttpSession session) {
+       long userId = ((User)session.getAttribute("u")).getId();		
+		User u = entityManager.find(User.class, userId);
+        //Para la parte de mentor
+        model.addAttribute("mentoringListForMentor", u.getMentoringsOutgoing());
+        //Para la parte de user
+        model.addAttribute("mentoringListForUser", u.getMentoringsIncoming());
+        
+
             model.addAttribute("mentoringList", entityManager
             .createQuery("SELECT m FROM Mentoring m", Mentoring.class)
             .getResultList());

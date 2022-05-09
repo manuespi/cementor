@@ -25,11 +25,10 @@
             <table id="resultado"></table>
         </div>
         <div class="container">
-            <form class="form-signin" method="get" th:action="@{/mentorias/lista_mentorias}">
-                
+            <form class="form-signin" method="get" th:action="@{/mentorias/lista_mentorias}">                
 
                 <table name="mentorias" id="mentorias" multiple>
-                    <h2 class="form-signin-heading">Lista de Mentorias</h2>
+                    <h2 class="form-signin-heading">Lista de Mentorias </span></h2>
                     <tr th:each="m: ${mentoringList}">
                         <td>
                             <input type="text" th:value="${m.name}" readonly="readonly"/>
@@ -51,20 +50,20 @@
                 
             </form>
         </div>
-        <script> 
+       <!-- <script> 
             const formulario = document.querySelector('#tagBuscado');
             const boton =document.querySelector('#buscarMentoriaxTag');
             const resultado = document.querySelector('#resultado');
             const filtrar = () =>{
                     const texto = formulario.value.toLoweCase();
-                    if(nombre.indexOf() !== -1){
+                    if(nombre.indexOf(texto) !== -1){
                         resultado.innerHTML += ` 
                         <li>${mentoring.nombre} : ${mentoring.Date} : ${mentoring.Title}</li>
                         `
                     }
             }
             boton.addEventListener('click', filtrar);
-        </script>
+        </script>-->
         <div id="movies" class="border border-2 border-secondary rounded">
             <label for="imdb">IMDB</label><input id="imdb" value="tt11286314" />
             <button id="fetchMovie">Buscar datos online</button>
