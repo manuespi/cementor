@@ -3,7 +3,7 @@
 
 <head>
     <th:block th:replace="fragments/head :: header" />
-    <title>Lista de Reviews</title>
+    <title>Lista de Mentorias</title>
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -34,7 +34,13 @@
                             <td>
                                 <button type="button" th:attr="data-id=${m.id}" class="url mv">Edit</button>
                                 <button type="button" th:attr="data-id=${m.id}" class="url rm">Borrar</button>
+
                             </td>
+                            <td>
+                    <form th:action="@{/chat}" method="get">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">Chat</button>
+                    </form>
+                </td>
                     </tr>
                 </table>
                 

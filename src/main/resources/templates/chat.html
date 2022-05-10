@@ -1,4 +1,42 @@
-<h1>CHAT</h1>
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-<p>Se muestra un chat que nos permite hablar tanto con alumnos como con
-mentores, además de tener disponibles los chats de grupos de las mentorías a las que estamos unidos.</p>
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Mensajes de chat</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <form class="form-signin" method="get" th:action="@{/chat}">
+                
+
+                <table name="mentorias" id="mentorias" multiple>
+                    <h2 class="form-signin-heading">Lista de Mensajes</h2>
+                    <tr th:each="cm: ${chatMessageList}">
+                        <td>
+                            <input type="text" th:value="${cm.sender}"/>
+                        </td> 
+                        <td>
+                            <input type="text" th:value="${cm.date}"/>
+                        </td>
+                        <td> 
+                            <input type="text" th:value="${cm.text}"/>
+                        </td>
+                    </tr>
+                    <form th:action="@{/chat}" method="post">
+                        <input type="text" id ="text"/>
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">enviar mensaje</button>
+                    </form>
+                </table>
+                
+            </form>
+        </div>
+    </main>
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>

@@ -48,6 +48,22 @@ public class RootController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @GetMapping("/chat")
+    public String vistaChat(Model model, @RequestParam(name = "mentoring", required = false) Long mId) {
+        /*model.addAttribute("chatMessageList", entityManager
+            .createQuery("SELECT cm FROM ChatMessage cm WHERE cm.mentoringId = '"mId"'", Tag.class)
+            .getResultList());*/
+        return "chat";
+    }
+
+    @Transactional
+    @PostMapping("/chat")
+    public String enviarMensajeMentoria(Model model, @ModelAttribute User user, HttpSession session){
+       
+        
+        return "chat";
+    }
+
 	@GetMapping("/login")
     public String vistaLogin(Model model) {
         return "login";
@@ -145,6 +161,7 @@ public class RootController {
             .getResultList());
         return "/tags/lista_tags";
     }
+
     @GetMapping("/comments/lista_comments")
     public String vistaListaComments(Model model) {
         model.addAttribute("commentList", entityManager
