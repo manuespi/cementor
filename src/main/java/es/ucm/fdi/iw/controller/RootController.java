@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import es.ucm.fdi.iw.model.ChatMessage;
 import es.ucm.fdi.iw.model.Comment;
 import es.ucm.fdi.iw.model.Mentoring;
 import es.ucm.fdi.iw.model.Review;
@@ -49,10 +50,13 @@ public class RootController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/chat")
-    public String vistaChat(Model model, @RequestParam(name = "mentoring", required = false) Long mId) {
-        /*model.addAttribute("chatMessageList", entityManager
-            .createQuery("SELECT cm FROM ChatMessage cm WHERE cm.mentoringId = '"mId"'", Tag.class)
-            .getResultList());*/
+    public String vistaChat(Model model, HttpSession session, @RequestBody JsonNode data) {
+        TypedQuery<ChatMessage> q = entityManager
+            .createQuery("SELECT m FROM ChatMessage m WHERE m.mentoringId = :mId", ChatMessage.class);
+
+            q.setParameter("mId", data.get("id").asText());
+            model.addAttribute("chatMessageList", q.getResultList());
+
         return "chat";
     }
 

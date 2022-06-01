@@ -38,7 +38,7 @@
                             </td>
                             <td>
                     <form th:action="@{/chat}" method="get">
-                        <button type="submit" class="btn btn-outline-secondary btn-sm">Chat</button>
+                        <button type="button" th:attr="data-id=${m.id}" class="url ch">Chat</button>
                     </form>
                 </td>
                     </tr>
@@ -48,6 +48,15 @@
         </div>
     </main>
     <th:block th:replace="fragments/footer.html :: footer" />
+
+    <script>
+        document.querySelectorAll(".ch").forEach(b => b.addEventListener("click", e => {
+            const id = e.target.dataset.id;
+            const datos = {id};
+            go("/chat", "GET", datos).then(d => console.log("todo bien"));
+        }));
+    </script>
+        
     <script>
         document.querySelectorAll(".mv").forEach(b => b.addEventListener("click", e => {
             const id = e.target.dataset.id;
