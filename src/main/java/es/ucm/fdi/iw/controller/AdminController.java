@@ -15,12 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import es.ucm.fdi.iw.model.Asesor;
-
+import es.ucm.fdi.iw.model.Comment;
+import es.ucm.fdi.iw.model.Tag;
 
 /**
  *  Site administration.
@@ -40,6 +39,35 @@ public class AdminController {
     //Tag
     @Autowired
 	private EntityManager entityManager;
+   
 
-    
+    @Transactional
+    @RequestMapping(value = "/actualizarTag", method = RequestMethod.POST)
+    public String updateTag(Model model, @ModelAttribute Tag tag){
+        Tag tagAux = entityManager.find(Tag.class, tag.getId());
+
+    tagAux.setName(tag.getName());
+    tagAux.setDescription(tag.getDescription());
+            return "actualizar_tag";
+        
+
+    }
+
+    @Transactional
+    @RequestMapping(value = "/borrarTag", method = RequestMethod.POST)
+    public String borrarTag(Model model, @ModelAttribute Tag tag){
+        Tag tagAux = entityManager.getReference(Tag.class, tag.getId());
+        entityManager.remove(tagAux);
+        return "borrar_tag";
+    }
+
+
+    //Comment
+    @RequestMapping(value = "/VerTag", method = RequestMethod.POST)
+    public String borrarTag(Model model, @ModelAttribute Comment comment){
+        model.addAttribute("tagList", entityManager
+            .createQuery("SELECT t FROM TAG t",Tag.class)
+            .getResultList());
+        return "borrar_comment";
+    }
 }

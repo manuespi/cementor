@@ -46,6 +46,23 @@ public class User implements Transferable<User.Transfer> {
 
     @Column(nullable = false)
     private String password;
+    private String firstName;
+    private String lastName;
+    private Double score;
+
+    @OneToMany
+    //@JoinColumn(name = "COMMENT_ID")
+    private List<Comment> comments;
+
+    @OneToMany
+    @JoinColumn(name = "MENTOR_ID")
+    private List<Mentoring> mentoringsOutgoing;
+    @ManyToMany (mappedBy ="alumnos")
+    private List<Mentoring> mentoringsIncoming;
+
+    @OneToMany
+    //@JoinColumn(name = "REVIEW_ID")
+    private List<Review> review;
 
     private boolean enabled;
     private String roles; // split by ',' to separate roles

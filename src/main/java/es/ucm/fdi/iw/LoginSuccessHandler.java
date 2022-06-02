@@ -81,7 +81,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		}else if(u.hasRole(User.Role.MENTOR)){
 			nextUrl="mentor/" + u.getId();
 		}else{
-			nextUrl="";
+			nextUrl="user/" + u.getId();
 		}
 
 		log.info("LOG IN: {} (id {}) -- session is {}, websocket is {} -- redirected to {}",

@@ -1,7 +1,10 @@
 package es.ucm.fdi.iw.controller;
 
 import es.ucm.fdi.iw.LocalData;
+import es.ucm.fdi.iw.model.Comment;
+import es.ucm.fdi.iw.model.Mentoring;
 import es.ucm.fdi.iw.model.Message;
+import es.ucm.fdi.iw.model.Tag;
 import es.ucm.fdi.iw.model.Transferable;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
@@ -142,6 +145,10 @@ public class UserController {
         // retrieve requested user
         target = entityManager.find(User.class, id);
         model.addAttribute("user", target);
+
+		model.addAttribute("mentoringList", entityManager
+            .createQuery("SELECT m FROM Mentoring m WHERE ", Mentoring.class)
+            .getResultList());
 		
 		if (requester.getId() != target.getId() &&
 				! requester.hasRole(Role.ADMIN)) {
@@ -157,6 +164,8 @@ public class UserController {
             }
 		}		
 		target.setUsername(edited.getUsername());
+		target.setFirstName(edited.getFirstName());
+		target.setLastName(edited.getLastName());
 
 		// update user session so that changes are persisted in the session, too
         if (requester.getId() == target.getId()) {
@@ -313,6 +322,14 @@ public class UserController {
 		messagingTemplate.convertAndSend("/user/"+u.getUsername()+"/queue/updates", json);
 		return "{\"result\": \"message sent.\"}";
 	}	
+
+	//@GetMapping("/crearComment")
+    public String commentForm(Model model){
+        model.addAttribute("tagList", entityManager
+            .createQuery("SELECT t FROM TAG t",Tag.class)
+            .getResultList());
+        return "crear_comment";
+    }
     
 
  
