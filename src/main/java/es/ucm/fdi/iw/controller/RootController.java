@@ -1,16 +1,22 @@
 package es.ucm.fdi.iw.controller;
 
 import java.sql.Date;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NamedQueries;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import javax.websocket.Session;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
@@ -24,12 +30,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import es.ucm.fdi.iw.model.Asesor;
 import es.ucm.fdi.iw.model.ChatMessage;
-import es.ucm.fdi.iw.model.Comment;
-import es.ucm.fdi.iw.model.Mentoring;
-import es.ucm.fdi.iw.model.Review;
-import es.ucm.fdi.iw.model.Tag;
+import es.ucm.fdi.iw.model.Medicion;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.Medicion.Tipo;
 import es.ucm.fdi.iw.model.User.Role;
 
 import org.springframework.web.bind.annotation.*;
@@ -49,23 +54,25 @@ public class RootController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/chat")
-    public String vistaChat(Model model, HttpSession session, @RequestBody JsonNode data) {
-        TypedQuery<ChatMessage> q = entityManager
-            .createQuery("SELECT m FROM ChatMessage m WHERE m.mentoringId = :mId", ChatMessage.class);
+    @GetMapping("/")
+    public String pantallaPrincipal(Model model, HttpSession session) {
+        if(((User) session.getAttribute("u"))!=null){
+            model.addAttribute("medicionesList", entityManager
+            .createQuery("SELECT m FROM Medicion m", Medicion.class)
+            .getResultList());
 
-            q.setParameter("mId", data.get("id").asText());
-            model.addAttribute("chatMessageList", q.getResultList());
+            model.addAttribute("asesorList", entityManager
+            .createQuery("SELECT r FROM Asesor r WHERE activo = true", Asesor.class)
+            .getResultList());
 
-        return "chat";
-    }
-
-    @Transactional
-    @PostMapping("/chat")
-    public String enviarMensajeMentoria(Model model, @ModelAttribute User user, HttpSession session){
-       
-        
-        return "chat";
+            List<Tipo> tipos=new ArrayList<Tipo>();
+            tipos.add(Tipo.MENOR);
+            tipos.add(Tipo.INTERMEDIA);
+            tipos.add(Tipo.SUPERIOR);
+            model.addAttribute("tiposMediciones", tipos);
+            return "inicio";
+        }
+        return "login";
     }
 
 	@GetMapping("/login")
@@ -97,278 +104,126 @@ public class RootController {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
-        user.setScore(0.0);
-        if(user.getRoles().compareTo("MENTOR")==0){
-            user.setRoles("USER,MENTOR");
-        }
+        user.setRoles("USER");
         
         entityManager.persist(user);
         entityManager.flush();
-        if(user.getId()!=null){
-            User target = entityManager.find(User.class, user.getId());
-            model.addAttribute("user", target);
-            session.setAttribute("u", target);
-            if(target.getRoles().equals("USER"))
-			session.setAttribute("userrol", "USER");
-			else if(target.getRoles().equals("MENTOR"))
-			session.setAttribute("mentorrol", "MENTOR");
-			else session.setAttribute("adminrol", "ADMIN");
-            return "user";
-        }
+        
         
         return "crear_cuenta";
     }
-
-    @GetMapping("/tags/crear_tag")
-    public String vistaCrearTag(Model model) {
-        return "tags/crear_tag";
-    }
-    @Transactional
-    @PostMapping("/tags/crear_tag")
-    public String crearTag(Model model, HttpSession session, @ModelAttribute Tag tag) {
-            entityManager.persist(tag);
-            return "tags/crear_tag";
-    }
-
-    @GetMapping("/tags/actualizar_tag")
-    public String vistaActualizarTag(Model model) {
-        return "tags/lista_tags";
-    }
-    @Transactional
-    @ResponseBody
-    @PostMapping("/tags/actualizar_tag")
-    public String actualizarTag(Model model, HttpSession session, @RequestBody JsonNode data) {
-        Tag t = entityManager.find(Tag.class, data.get("id").asLong());
-        t.setDescription(data.get("description").asText());
-        t.setName(data.get("name").asText());
-        return "{\"result\": \"ok\"}";
-    }
-
-    @GetMapping("/tags/borrar_tag")
-    public String vistaBorrarTag(Model model) {
-        return "tags/lista_tags";
-    }
-    @Transactional
-    @ResponseBody
-    @PostMapping("/tags/borrar_tag")
-    public String borrarTag(Model model, HttpSession session, @RequestBody JsonNode data) {
-        Tag t = entityManager.find(Tag.class, data.get("id").asLong());
-        entityManager.remove(t);
-        return "{\"result\": \"ok\"}";
-        
-    }
-
-    @GetMapping("/tags/lista_tags")
-    public String vistaListaTags(Model model) {
-        model.addAttribute("tagList", entityManager
-            .createQuery("SELECT t FROM Tag t", Tag.class)
-            .getResultList());
-        return "/tags/lista_tags";
-    }
-
-    @GetMapping("/comments/lista_comments")
-    public String vistaListaComments(Model model) {
-        model.addAttribute("commentList", entityManager
-            .createQuery("SELECT c FROM Comment c", Comment.class)
-            .getResultList());
-        return "/comments/lista_comments";
-    }
-
-    @Transactional
-    @GetMapping("/comments/crear_comment")
-    public String crearComment(Model model) {
-        Tag tag = new Tag();
-        tag.setName("IW");
-        tag.setDescription("iajsdioajsiodj");
-        entityManager.persist(tag);
-        entityManager.flush();
-
-        tag = new Tag();
-        tag.setName("SAW");
-        tag.setDescription("iajsdioajsiodj");
-        entityManager.persist(tag);
-        entityManager.flush();
-
-        tag = new Tag();
-        tag.setName("FWES");
-        tag.setDescription("iajsdioajsiodj");
-        entityManager.persist(tag);
-        entityManager.flush();
-
-
-
-        model.addAttribute("tagList", entityManager
-            .createQuery("SELECT t FROM Tag t", Tag.class)
-            .getResultList());
-
-        return "comments/crear_comment";
-    }
-
-    @GetMapping("/comments/borrar_comment")
-    public String vistaBorrarComment(Model model) {
-        return "comments/lista_comment";
-    }
-    @Transactional
-    @ResponseBody
-    @PostMapping("/comments/borrar_comment")
-    public String borrarComment(Model model, HttpSession session, @RequestBody JsonNode data) {
-        Comment t = entityManager.find(Comment.class, data.get("id").asLong());
-        entityManager.remove(t);
-        return "{\"result\": \"ok\"}"; 
-    }
-
-    @Transactional
-    @PostMapping("/crearComment")
-    public String createComment(Model model,HttpSession session, @ModelAttribute Comment comment, @RequestParam(name = "tags", required = false) List<Long> ids){
-        Long id = ((User) session.getAttribute("u")).getId();
-        User u = entityManager.find(User.class, id);
-        comment.setUser(u);
-        List<Tag> listTags= new ArrayList<Tag>();
-        for(int i=0; i<ids.size(); i++){
-            listTags.add(entityManager.find(Tag.class, ids.get(i)));
-        }
-        comment.setTag(listTags);
-        LocalDate aux = LocalDate.now();
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-        comment.setDate(Date.from(aux.atStartOfDay(defaultZoneId).toInstant()));
-        entityManager.persist(comment);
-        return "comments/crear_comment";
-    }
-
-    //Ver comments
-    @Transactional
-    @GetMapping("/comments/ver_comments")
-    public String verComment(Model model)
-    {
-        model.addAttribute("commentList", entityManager
-            .createQuery("SELECT t FROM Comment t", Comment.class)
-            .getResultList());
-
-        return "comments/ver_comments";
-    }
-
-    @GetMapping("/comments/ver_comments/{id}")
-    public String verCommentId(Model model, @PathVariable("id") String id)
-    {
-        model.addAttribute("commentList", entityManager
-            .createQuery("SELECT m FROM Comment m INNER JOIN m.tag r WHERE r.id=1", Comment.class)
-            .getResultList());
-            
-        return "comments/ver_comments";
-    }
-    //@PostMapping("comments/ver_comments")
-
-    @GetMapping("/mentorias/crear_mentoria")
-    public String vistaCrearMentoria(Model model){
-        model.addAttribute("tagList", entityManager
-            .createQuery("SELECT t FROM Tag t", Tag.class)
-            .getResultList());
-
-        return "/mentorias/crear_mentoria";
-    }
-    @Transactional
-    @PostMapping("/mentorias/crear_mentoria")
-    public String crearMentoring(Model model, HttpSession session, @ModelAttribute Mentoring mentoria, @RequestParam(name = "tagIds", required = false) List<Long> ids) {
-            Long id = ((User) session.getAttribute("u")).getId();
-            User u = entityManager.find(User.class, id);
-            mentoria.setMentor(u);
-            List<Tag> listTags= new ArrayList<Tag>();
-            for(int i=0; i<ids.size(); i++){
-                listTags.add(entityManager.find(Tag.class, ids.get(i)));
-            }
-            mentoria.setTag(listTags);
-            entityManager.persist(mentoria);
-            return "mentorias/crear_mentoria";
-    }
-	@GetMapping("/")
-    public String index(Model model) {
-        return "index";
-    }
     
-    @GetMapping("/mentorias/lista_mentorias")
-    public String verListaMentorings(Model model, HttpSession session) {
-       long userId = ((User)session.getAttribute("u")).getId();		
-		User u = entityManager.find(User.class, userId);
-        //Para la parte de mentor
-        model.addAttribute("mentoringListForMentor", u.getMentoringsOutgoing());
-        //Para la parte de user
-        model.addAttribute("mentoringListForUser", u.getMentoringsIncoming());
-        
-
-            model.addAttribute("mentoringList", entityManager
-            .createQuery("SELECT m FROM Mentoring m", Mentoring.class)
+    @GetMapping("/mediciones/annadir_medicion")
+    public String verAnnadirMedicion(Model model, HttpSession session) {
+            model.addAttribute("asesorList", entityManager
+            .createQuery("SELECT r FROM Asesor r WHERE activo = true", Asesor.class)
             .getResultList());
 
-        return "mentorias/lista_mentorias";
-    }
-
-    @GetMapping("/mentorias/actualizar_mentorias")
-    public String vistaActualizarMentoria(Model model) {
-        return "mentotias/lista_mentorias";
-    }
-    @Transactional
-    @ResponseBody
-    @PostMapping("/mentorias/actualizar_mentorias")
-    public String actualizarMentoria(Model model, HttpSession session, @RequestBody JsonNode data) {
-        Tag t = entityManager.find(Tag.class, data.get("id").asLong());
-        t.setDescription(data.get("description").asText());
-        t.setName(data.get("name").asText());
-        return "{\"result\": \"ok\"}";
-    }
-
-    @GetMapping("/tags/borrar_mentorias")
-    public String vistaBorrarMentoria(Model model) {
-        return "mentorias/lista_mentorias";
-    }
-    @Transactional
-    @ResponseBody
-    @PostMapping("/mentorias/borrar_mentorias")
-    public String borrarMentoria(Model model, HttpSession session, @RequestBody JsonNode data) {
-        Mentoring m = entityManager.find(Mentoring.class, data.get("id").asLong());
-        entityManager.remove(m);
-        return "{\"result\": \"ok\"}";
-        
-    }
+            List<Tipo> tipos=new ArrayList<Tipo>();
+            tipos.add(Tipo.MENOR);
+            tipos.add(Tipo.INTERMEDIA);
+            tipos.add(Tipo.SUPERIOR);
+            model.addAttribute("tiposMediciones", tipos);
 
 
+        return "mediciones/annadir_medicion";
+    }
 
     @Transactional
-    @GetMapping("/reviews/crear_review")
-    public String crearReview(Model model) {
-            entityManager.flush();
-            model.addAttribute("mentoringList", entityManager
-            .createQuery("SELECT m FROM Mentoring m", Mentoring.class)
+    @PostMapping("/mediciones/annadir_medicion")
+    public String annadirMedicion(Model model, HttpSession session, @ModelAttribute Medicion medicion, @RequestParam(name = "asesor", required = true) Long idAsesor, @RequestParam(name = "tipoSelected", required = true) String tipo ) {
+        medicion.setAtendida(false);
+        medicion.setLlamada(false);
+        medicion.setRecibida(false);
+        LocalDate aux = LocalDate.now();
+        LocalTime aux1= LocalTime.now();
+        LocalDateTime localDateTime=aux1.atDate(aux);
+
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+        //medicion.setFecha(Date.from(aux.atStartOfDay(defaultZoneId).toInstant()));
+        Instant instant = localDateTime.atZone(ZoneId.systemDefault()).toInstant();
+        medicion.setFecha(Date.from(instant));
+        medicion.setCreador(entityManager.find(Asesor.class, idAsesor));
+        if(tipo.compareTo("MENOR")==0){
+            medicion.setTipo(Tipo.MENOR);
+        }else if(tipo.compareTo("INTERMEDIA")==0){
+            medicion.setTipo(Tipo.INTERMEDIA);
+        }else{
+            medicion.setTipo(Tipo.SUPERIOR);
+        }
+        entityManager.persist(medicion);
+        return "redirect:/";
+    }
+
+    @GetMapping("/mediciones/listar_mediciones")
+    public String verListarMedicionesString(Model model) {
+            model.addAttribute("medicionesList", entityManager
+            .createQuery("SELECT r FROM Medicion r", Medicion.class)
             .getResultList());
 
-        return "reviews/crear_review";
+        return "mediciones/listar_mediciones";
     }
+
+    @GetMapping("/asesores/annadir_asesor")
+    public String annadirAsesor(Model model) {
+        return "mediciones/annadir_asesor";
+    }
+
+    @GetMapping("/mediciones/inicio")
+    public String irInicio(Model model) {
+        return "inicio";
+    }
+
     @Transactional
-    @PostMapping("/reviews/crearReview")
-    public String createReview(Model model,HttpSession session, @ModelAttribute Review review,  @RequestParam(name = "mentoringId", required = false) Long ids){
-        Long id = ((User) session.getAttribute("u")).getId();
-        User u = entityManager.find(User.class, id);
-        review.setCreator(u);
-        Mentoring m = entityManager.find(Mentoring.class, ids);
-        review.setMentoring(m);
-        entityManager.persist(review);
-        return "/reviews/crear_review";
+    @PostMapping("/asesores/annadir_asesor")
+    public String annadirAsesor(Model model, @ModelAttribute Asesor asesor) {
+        asesor.setActivo(true);
+        entityManager.persist(asesor);
+        return "inicio";
     }
 
-    @GetMapping("/reviews/lista_reviews")
-    public String verListaReviews(Model model) {
-            model.addAttribute("reviewList", entityManager
-            .createQuery("SELECT r FROM Review r", Review.class)
-            .getResultList());
-
-        return "reviews/lista_reviews";
+    @Transactional
+    @PostMapping("/mediciones/cambio_recibida")
+    public String cambioRecibida(Model model, HttpSession session ,@RequestParam(name = "idCambio", required = true) Long idMedicion) {
+        Medicion u=entityManager.find(Medicion.class, idMedicion);
+        if(u.isRecibida()){
+            u.setRecibida(false);
+        }else{
+            u.setRecibida(true);
+        }
+        return "redirect:/";
     }
 
-    @GetMapping("mentor/{id}")
-	@Transactional
-	public String cargarVistaMentor(@PathVariable long id, Model model, HttpSession session){
-        User target = entityManager.find(User.class, id);
-        model.addAttribute("user", target);
-        return "mentor";
+    @Transactional
+    @PostMapping("/mediciones/cambio_llamada")
+    public String cambioLlamada(Model model, HttpSession session ,@RequestParam(name = "idCambio", required = true) Long idMedicion) {
+        Medicion u=entityManager.find(Medicion.class, idMedicion);
+        if(u.isLlamada()){
+            u.setLlamada(false);
+        }else{
+            u.setLlamada(true);
+        }
+        return "redirect:/";
+    }
+
+    @Transactional
+    @PostMapping("/mediciones/cambio_gestionada")
+    public String cambioGestionada(Model model, HttpSession session ,@RequestParam(name = "idCambio", required = true) Long idMedicion) {
+        Medicion u=entityManager.find(Medicion.class, idMedicion);
+        if(u.isAtendida()){
+            u.setAtendida(false);
+        }else{
+            u.setAtendida(true);
+        }
+        return "redirect:/";
+    }
+
+    @Transactional
+    @PostMapping("/mediciones/eliminar_medicion")
+    public String eliminarMedicion(Model model, HttpSession session ,@RequestParam(name = "idCambio", required = true) Long idMedicion) {
+        Medicion u=entityManager.find(Medicion.class, idMedicion);
+        entityManager.remove(u);
+        return "redirect:/";
     }
   
 

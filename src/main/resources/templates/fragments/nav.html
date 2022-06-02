@@ -13,13 +13,13 @@
             <div class="container-fluid">
                 <!-- nombre del sitio; es un enlace que lleva a la página ppal -->
                 <th:block th:if="${session.u}">
-                    <a class="navbar-brand" th:href="@{/user/{id}(id=${session.u.getId()})}" href="/">
-                        <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="32" height="32" class="d-inline-block align-text-top"> Cementor
+                    <a class="navbar-brand" th:href="@{/}" href="/">
+                        <img th:src="@{/img/LMlogo.png}" src="/img/LMlogo.png" alt="logo IW" width="120" height="70" class="d-inline-block align-text-top"> GESTOR DE MEDICIONES
                     </a>
                 </th:block>
                 <th:block th:if="${session.u == null}">
                     <a class="navbar-brand" th:href="@{/}" href="/">
-                        <img th:src="@{/img/logo.png}" src="/img/logo.png" alt="logo IW" width="32" height="32" class="d-inline-block align-text-top"> Cementor
+                        <img th:src="@{/img/LMlogo.png}" src="/img/LMlogo.png" alt="logo IW" width="120" height="70" class="d-inline-block align-text-top"> GESTOR DE MEDICIONES
                     </a>
                 </th:block>
                 
@@ -34,55 +34,18 @@
                                 <a class="nav-link" th:if="${session.u.hasRole('ADMIN')}" th:href="@{/admin/}">Administrar</a>
                             </li>
                             <div>
-                            <li class="nav-item align-self-center">
-                                <form th:action="@{/comments/crear_comment}" method="get">
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Crear un comment</button>
-                                </form>
-                            </li>
-
-                            <li class="nav-item align-self-center">
-                                <form th:action="@{/tags/crear_tag}" method="get">
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Crear un tag</button>
-                                </form>
-                            </li>
-                            
-                            <li class="nav-item align-self-center">
-                                <form th:action="@{/mentorias/crear_mentoria}" method="get">
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Crear un Mentoria</button>
-                                </form>
-                            </li>
-                            <li class="nav-item align-self-center">
-                                <form th:action="@{/reviews/crear_review}" method="get">
-                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Crear una review</button>
-                                </form>
-                            </li>
-                            </div>
-
-                            <div>
+                            <th:block th:if="${session.u.hasRole('ADMIN')}">
                                 <li class="nav-item align-self-center">
-                                    <form th:action="@{/comments/lista_comments}" method="get">
-                                            <button type="submit" class="btn btn-outline-secondary btn-sm">Lista comments</button>
-                                        </a>
+                                    <form th:action="@{/asesores/annadir_asesor}" method="get">
+                                        <button type="submit" class="btn btn-outline-secondary btn-sm">Añadir un asesor</button>
                                     </form>
                                 </li>
-    
-                                <li class="nav-item align-self-center">
-                                    <form th:action="@{/tags/lista_tags}" method="get">
-                                        <button type="submit" class="btn btn-outline-secondary btn-sm">Lista tags</button>
-                                    </form>
-                                </li>
-                                <li class="nav-item align-self-center">
-                                    <form th:action="@{/mentorias/lista_mentorias}" method="get">
-                                        <button type="submit" class="btn btn-outline-secondary btn-sm">Lista Mentorias</button>
-                                    </form>
-                                </li>
-                                <th:block th:if="${session.u.hasRole('ADMIN')}">
-                                    <li class="nav-item align-self-center">
-                                        <form th:action="@{/reviews/lista_reviews}" method="get">
-                                            <button type="submit" class="btn btn-outline-secondary btn-sm">Lista reviews</button>
-                                        </form>
-                                    </li>
-                                </th:block>
+                            </th:block>
+                            <li class="nav-item align-self-center">
+                                <form th:action="@{/mediciones/annadir_medicion}" method="get">
+                                    <button type="submit" class="btn btn-outline-secondary btn-sm">Añadir una medicion</button>
+                                </form>
+                            </li>
 
                             </div>
                             <li class="nav-item mx-2">
@@ -91,11 +54,7 @@
                                     <span th:text="${session.u.username}">Mi Perfil</span> <!--th:text="${session.u.username}"-->         
                                 </a>
                             </li>
-                            <li class="nav-item align-self-center me-4">
-                                <button type="button" class="btn btn-outline-primary btn-sm position-relative">
-                                    ✉️ <span id="nav-unread" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">+99 <span class="visually-hidden">mensajes sin leer</span></span>
-                                </button>
-                            </li>
+                            
                             <li class="nav-item align-self-center">
                                 <form th:action="@{/logout}" method="post">
                                     <button type="submit" class="btn btn-outline-secondary btn-sm">Cerrar sesión</button>
@@ -112,20 +71,6 @@
                                     (ver StartupConfig.java para ver cómo se lee de la configuración
                                     y luego se escribe a ${application.debug})
                             */-->
-                            <li class="nav-item debug align-self-center" th:if="${application.debug}">
-                                <form class="d-flex" th:action="@{/login}" method="post">
-                                    <input type="hidden" name="username" value="a">
-                                    <input type="hidden" name="password" value="aa">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">a</button>
-                                </form>
-                            </li>
-                            <li class="nav-item debug align-self-center" th:if="${application.debug}">
-                                <form class="d-flex" th:action="@{/login}" method="post">
-                                    <input type="hidden" name="username" value="b">
-                                    <input type="hidden" name="password" value="aa">
-                                    <button type="submit" class="btn btn-outline-danger btn-sm">b</button>
-                                </form>
-                            </li>
                         </th:block>
                     </ul>
                 </div>

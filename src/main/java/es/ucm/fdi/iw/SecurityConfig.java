@@ -53,11 +53,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	            .antMatchers("/css/**", "/js/**", "/img/**", "/", "/error","/crear_cuenta").permitAll()
 				.antMatchers("/api/**").permitAll()            // <-- public api access
 				.antMatchers("/admin/**").hasRole("ADMIN")	   // <-- administration
+				.antMatchers("/asesores/**").hasRole("ADMIN")	   // <-- asesores
 	            .antMatchers("/user/**").hasRole("USER")	   // <-- logged-in users
+				.antMatchers("/mediciones/**").hasRole("USER")	   // <-- logged-in users
 				.antMatchers("/mentor/**").hasRole("MENTOR")	   // <-- mentor only
 				.antMatchers("/tags/**").hasRole("USER")	   // <-- mentor only
 				.antMatchers("/mentorias/**").hasRole("USER")	   // <-- mentor only
-				.antMatchers("/reviews/**").hasRole("USER")	   // <-- mentor only
+				.antMatchers("/reviews/**").hasRole("USER")
+					   // <-- mentor only
 				.antMatchers("/**").hasRole("ADMIN")	   // <-- full access
 	            .anyRequest().authenticated()
 	            .and()

@@ -114,3 +114,67 @@ h1  {
     max-width: 90%;
     margin: auto;
 }
+
+.botonRecibidaNo{
+    color: #fff;
+    background-color: hsl(34, 97%, 49%);
+    border-color: #9c0404;
+    font-size: .8rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    text-align: center;
+    line-height: 1.5;
+    border-radius: .25rem;
+}
+
+.botonRecibidaYes{
+    color: #fff;
+    background-color: hwb(115 2% 5%);
+    border-color: hsl(110, 100%, 17%);
+    font-size: .8rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    text-align: center;
+    line-height: 1.5;
+    border-radius: .25rem;
+}
+
+.listaMediciones{
+    list-style-type: none;
+    display: block;
+}
+
+.lineaMediciones{
+    display: inline-block;
+}
+
+.pruebaForm{
+    display: inline-block;
+}
+
+.btnMedicion{
+    width: 120px;
+}
+
+.btnDeleteMedicion{
+    color: #fff;
+    display:block;
+    background-color: rgb(255, 0, 0);
+    border-color: hsl(0, 100%, 17%);
+    font-size: .8rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    padding: .375rem .375rem;
+    text-align: left;
+    line-height: 1.5;
+    border-radius: .25rem;
+}
+
+.imagenDelete{
+    float: left;
+    width: 17px;
+    height: 17px;
+    padding-right: 2px;
+}

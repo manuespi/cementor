@@ -1,0 +1,12 @@
+2022-06-01 23:30:26 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM ASESOR WHERE ACTIVO=[*]=TRUE"; se esperaba "ALL, ANY, SOME"
+Syntax error in SQL statement "SELECT * FROM ASESOR WHERE ACTIVO=[*]=TRUE"; expected "ALL, ANY, SOME"; SQL statement:
+SELECT * FROM ASESOR WHERE ACTIVO==TRUE [42001-210]
+2022-06-01 23:30:29 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM ASESOR WHERE ACTIVO=[*]=TRUE"; se esperaba "ALL, ANY, SOME"
+Syntax error in SQL statement "SELECT * FROM ASESOR WHERE ACTIVO=[*]=TRUE"; expected "ALL, ANY, SOME"; SQL statement:
+SELECT * FROM ASESOR WHERE ACTIVO==TRUE [42001-210]
+2022-06-02 13:20:58 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SCRIPT TO [*]'C:\\Users\\iconm\\Desktop\\o.sql"
+Syntax error in SQL statement "SCRIPT TO [*]'C:\\Users\\iconm\\Desktop\\o.sql"; SQL statement:
+SCRIPT TO 'C:\Users\iconm\Desktop\o.sql [42000-210]

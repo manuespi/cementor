@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>IW: Singup</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <form class="form-signin" method="post" th:action="@{/mediciones/annadir_medicion}">
+                <h2 class="form-signin-heading">Por favor introduce los datos</h2>
+                <p>
+                    <label for="numero" class="visually-hidden">Numero pedido</label>
+                    <input type="text" id="numero" name="numero" class="form-control" placeholder="Numero pedido" required="required">
+                </p>
+                <p>
+                    <select name="asesor" id="asesor" required>
+                        <tr th:each="m: ${asesorList}">
+                            <td>
+                                <option th:value="${m.id}" th:text="${m.nombre}"> </option>
+                            </td> 
+                        </tr>
+                    </select>
+                </p><p>
+                    <select name="tipoSelected" id="tipoSelected" required>
+                        <tr th:each="m: ${tiposMediciones}">
+                            <td>
+                                <option th:value="${m}" th:text="${m}"> </option>
+                            </td> 
+                        </tr>
+                    </select>
+                </p>
+                <!--<p>
+                    <label for="password" class="visually-hidden">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Repetir contraseña" required="required">
+                </p>-->
+
+                
+                
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar medicion</button>
+                
+            </form>
+        </div>
+    </main>
+
+    <th:block th:replace="fragments/footer.html :: footer" />
+</body>
+
+</html>
