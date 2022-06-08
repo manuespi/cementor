@@ -34,7 +34,9 @@
                             <td>
                                 <button type="button" th:attr="data-id=${m.id}" class="url mv">Edit</button>
                                 <button type="button" th:attr="data-id=${m.id}" class="url rm">Borrar</button>
-                                <button type="button" th:attr="data-id=${m.id}" class="url join">Unirme</button>
+                                <th:block th:if="${mentoringListNotJoined.contains(m)}">
+                                    <button type="button" th:attr="data-id=${m.id}" class="url join">Unirme</button>
+                                </th:block>
                             </td>
                             <td>
                     <form th:action="@{/chat}" method="get">
@@ -83,7 +85,7 @@
             const id = e.target.dataset.id;
             const datos = {id};
             const row = e.target.parentNode.parentNode;
-            const button = row.children[5].children[2].value;
+            const button = row.children[5].children[2];
             go("/mentorias/unirse_mentorias", "POST", datos).then(d => button.remove());
         }));
     </script>

@@ -303,9 +303,27 @@ public class RootController {
         model.addAttribute("mentoringListForUser", u.getMentoringsIncoming());
         
 
-            model.addAttribute("mentoringList", entityManager
-            .createQuery("SELECT m FROM Mentoring m", Mentoring.class)
-            .getResultList());
+        model.addAttribute("mentoringList", entityManager
+        .createQuery("SELECT m FROM Mentoring m", Mentoring.class)
+        .getResultList());
+
+        List<Mentoring> m=entityManager
+            .createQuery("SELECT t FROM Mentoring t", Mentoring.class)
+            .getResultList();
+
+        List<Mentoring> f=new ArrayList<Mentoring>();
+        for(int i=0; i<m.size();i++){
+            for(int j=0; j<m.get(i).getAlumnos().size();j++){
+                if(m.get(i).getAlumnos().get(j).getId()-u.getId()!=0){
+                    f.add(m.get(i));
+                }
+            }
+            if(m.get(i).getAlumnos().size()==0){
+                f.add(m.get(i));
+            }
+        }
+        
+        model.addAttribute("mentoringListNotJoined", f);
 
         return "mentorias/lista_mentorias";
     }
