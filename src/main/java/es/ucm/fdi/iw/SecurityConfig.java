@@ -56,7 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	            .antMatchers("/user/**").hasRole("USER")	   // <-- logged-in users
 				.antMatchers("/mentor/**").hasRole("MENTOR")	   // <-- mentor only
 				.antMatchers("/tags/**").hasRole("USER")	   // 
-				.antMatchers("/inicio").hasRole("USER")	   // 
+				.antMatchers("/inicio").hasRole("USER")	   //
+				.antMatchers("/comments/**").hasRole("USER")	   //
 				.antMatchers("/mentorias/**").hasRole("USER")	   // <-- mentor only
 				.antMatchers("/reviews/**").hasRole("USER")	   // <-- mentor only
 				.antMatchers("/**").hasRole("ADMIN")	   // <-- full access

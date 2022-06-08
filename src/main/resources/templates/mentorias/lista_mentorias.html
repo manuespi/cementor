@@ -18,19 +18,19 @@
                     <h2 class="form-signin-heading">Lista de Mentorias</h2>
                     <tr th:each="m: ${mentoringList}">
                         <td>
-                            <input type="text" th:value="${m.name}"/>
+                            <input type="text" th:value="${m.name}" readonly/>
                         </td> 
                         <td>
-                            <input type="text" th:value="${m.classroom}"/>
+                            <input type="text" th:value="${m.classroom}" readonly/>
                         </td>
                         <td> 
-                            <input type="text" th:value="${m.date}"/>
+                            <input type="text" th:value="${m.date}" readonly/>
                         </td>
                         <td> 
-                            <input type="text" th:value="${m.ini}"/>
+                            <input type="text" th:value="${m.ini}" readonly/>
                         </td>
                         <td> 
-                            <input type="text" th:value="${m.fin}"/>
+                            <input type="text" th:value="${m.fin}" readonly/>
                             <td>
                                 <button type="button" th:attr="data-id=${m.id}" class="url mv">Edit</button>
                                 <button type="button" th:attr="data-id=${m.id}" class="url rm">Borrar</button>
