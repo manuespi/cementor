@@ -57,7 +57,8 @@ public class User implements Transferable<User.Transfer> {
     @OneToMany
     @JoinColumn(name = "MENTOR_ID")
     private List<Mentoring> mentoringsOutgoing;
-    @ManyToMany (mappedBy ="alumnos")
+    
+    @ManyToMany
     private List<Mentoring> mentoringsIncoming;
 
     @OneToMany

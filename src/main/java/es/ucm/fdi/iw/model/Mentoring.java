@@ -36,7 +36,7 @@ public class Mentoring {
     /* añadir a list review de la mentoria */
     @OneToMany
     private List<Review> reviews;
-    @OneToMany
+    @ManyToMany
     private List<User> alumnos;
 
 

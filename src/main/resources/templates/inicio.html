@@ -1,6 +1,38 @@
-<h1>INICIO</h1>
+<!DOCTYPE html>
+<html class="h-100" xmlns:th="http://www.thymeleaf.org">
 
-<p>Se muestran las asignaturas registradas en los perfiles logueados de los alumnos, además de tener la posibilidad de agregar nuevas a nuestro registro.<br> 
-  Arriba hay un indicador de notificaciones en el que se muestra las mentorías realizadas que necesitan un “feedback”. Luego se muestra un calendario con <br>
-  las mentorías a las que estamos registrados y un botón para acceder a nuestro perfil. Las checkbox indican si estamos registrados en alguna mentoría relacionada <br>
-  con esa aplicación. Además se nos muestra si tenemos algún mensaje de una asignatura determinada.</p>
+<head>
+    <th:block th:replace="fragments/head :: header" />
+    <title>Lista de Mentorias</title>
+</head>
+
+<body class="d-flex flex-column h-100">
+    <header th:replace="fragments/nav.html :: nav"></header>
+
+    <main class="flex-shrink-0">
+      <div class="container">
+              <table name="mentorias" id="mentorias" multiple>
+                  <h2 class="form-signin-heading">Lista de Mentorias</h2>
+                  <tr th:each="m: ${listaMentoriasAlumno}">
+                      <td>
+                          <input type="text" th:value="${m.name}"/>
+                      </td> 
+                      <td>
+                          <input type="text" th:value="${m.classroom}"/>
+                      </td>
+                      <td> 
+                          <input type="text" th:value="${m.date}"/>
+                      </td>
+                      <td> 
+                          <input type="text" th:value="${m.ini}"/>
+                      </td>
+                      <td> 
+                          <input type="text" th:value="${m.fin}"/>
+                      </td>
+                  </tr>
+              </table>
+      </div>
+  </main>
+</body>
+
+</html>

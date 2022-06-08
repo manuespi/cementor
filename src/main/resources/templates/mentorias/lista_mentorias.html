@@ -34,7 +34,7 @@
                             <td>
                                 <button type="button" th:attr="data-id=${m.id}" class="url mv">Edit</button>
                                 <button type="button" th:attr="data-id=${m.id}" class="url rm">Borrar</button>
-
+                                <button type="button" th:attr="data-id=${m.id}" class="url join">Unirme</button>
                             </td>
                             <td>
                     <form th:action="@{/chat}" method="get">
@@ -67,7 +67,7 @@
             const ini = row.children[3].children[0].value;
             const fin = row.children[4].children[0].value;
             const datos = {id, name, classroom, date, ini, fin};
-            go("/mentoring/actualizar_mentorias", "POST", datos).then(d => console.log("todo bien"));
+            go("/mentorias/actualizar_mentorias", "POST", datos).then(d => console.log("todo bien"));
         }));
     </script>
     <script>
@@ -75,7 +75,16 @@
             const id = e.target.dataset.id;
             const datos = {id};
             const row = e.target.parentNode.parentNode;
-            go("/mentoring/borrar_mentorias", "POST", datos).then(d => row.remove());
+            go("/mentorias/borrar_mentorias", "POST", datos).then(d => row.remove());
+        }));
+    </script>
+    <script>
+        document.querySelectorAll(".join").forEach(b => b.addEventListener("click", e => {
+            const id = e.target.dataset.id;
+            const datos = {id};
+            const row = e.target.parentNode.parentNode;
+            const button = row.children[5].children[2].value;
+            go("/mentorias/unirse_mentorias", "POST", datos).then(d => button.remove());
         }));
     </script>
 </body>

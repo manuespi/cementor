@@ -68,6 +68,25 @@ public class RootController {
         return "chat";
     }
 
+    
+    @GetMapping("/inicio")
+    public String cargaInicio(Model model, HttpSession session){
+        User u = (User)session.getAttribute("u");
+        List<Mentoring> m=entityManager
+            .createQuery("SELECT t FROM Mentoring t", Mentoring.class)
+            .getResultList();
+        List<Mentoring> f=new ArrayList<Mentoring>();
+        for(int i=0; i<m.size();i++){
+            for(int j=0; j<m.get(i).getAlumnos().size();j++){
+                if(m.get(i).getAlumnos().get(j).getId()-u.getId()==0){
+                    f.add(m.get(i));
+                }
+            }
+        }
+        model.addAttribute("listaMentoriasAlumno", f);
+        return "inicio";
+    }
+
 	@GetMapping("/login")
     public String vistaLogin(Model model) {
         return "login";
@@ -104,17 +123,6 @@ public class RootController {
         
         entityManager.persist(user);
         entityManager.flush();
-        if(user.getId()!=null){
-            User target = entityManager.find(User.class, user.getId());
-            model.addAttribute("user", target);
-            session.setAttribute("u", target);
-            if(target.getRoles().equals("USER"))
-			session.setAttribute("userrol", "USER");
-			else if(target.getRoles().equals("MENTOR"))
-			session.setAttribute("mentorrol", "MENTOR");
-			else session.setAttribute("adminrol", "ADMIN");
-            return "user";
-        }
         
         return "crear_cuenta";
     }
@@ -278,7 +286,7 @@ public class RootController {
             }
             mentoria.setTag(listTags);
             entityManager.persist(mentoria);
-            return "mentorias/crear_mentoria";
+            return "redirect:/mentorias/crear_mentoria";
     }
 	@GetMapping("/")
     public String index(Model model) {
@@ -328,6 +336,17 @@ public class RootController {
         entityManager.remove(m);
         return "{\"result\": \"ok\"}";
         
+    }
+
+    @Transactional
+    @ResponseBody
+    @PostMapping("/mentorias/unirse_mentorias")
+    public String unirseMentoria(Model model, HttpSession session, @RequestBody JsonNode data) {
+        Mentoring m = entityManager.find(Mentoring.class, data.get("id").asLong());
+        m.getAlumnos().add((User)session.getAttribute("u"));
+        User u=(User)session.getAttribute("u");
+        //u.getMentoringsIncoming().add(m);
+        return "{\"result\": \"ok\"}";  
     }
 
 
